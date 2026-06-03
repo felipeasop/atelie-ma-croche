@@ -1,0 +1,56 @@
+/* =========================================
+   banner.css - Estilos do Banner
+   ========================================= */
+
+.banner {
+    background: linear-gradient(
+        135deg,
+        var(--azul-deep) 0%,
+        var(--azul-medio) 100%
+    );
+    padding: 2.2rem 1.5rem;
+    margin-top: 1rem;
+}
+.banner-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1.4rem;
+}
+.banner-text h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--branco);
+}
+.banner-text p {
+    font-size: var(--font-size-base);
+    color: rgba(255, 255, 255, 0.88);
+    margin-top: 0.35rem;
+    max-width: 480px;
+    line-height: 1.6;
+}
+.btn-wpp-banner {
+    background: var(--branco);
+    color: var(--azul-deep);
+    box-shadow: 0 3px 14px rgba(0, 0, 0, 0.15);
+    flex-shrink: 0;
+}
+.btn-wpp-banner:hover {
+    background: var(--areia);
+}
+
+@media (max-width: 640px) {
+    .banner-inner {
+        flex-direction: column;
+        text-align: center;
+    }
+    .btn-wpp-banner {
+        width: 100%;
+        justify-content: center;
+    }
+}

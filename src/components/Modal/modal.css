@@ -1,0 +1,206 @@
+/* =========================================
+   modal.css - Estilos do Modal
+   ========================================= */
+
+#modal {
+    border: none;
+    padding: 0;
+    border-radius: var(--radius);
+    max-width: min(720px, 95vw);
+    width: 100%;
+    box-shadow: var(--shadow-modal);
+    overflow: hidden;
+    background: var(--branco);
+    position: fixed;
+    inset: 0;
+    margin: auto;
+}
+#modal::backdrop {
+    background: rgba(46, 36, 32, 0.6);
+    backdrop-filter: blur(6px);
+}
+.modal-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+}
+.modal-close {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    z-index: 10;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--texto-suave);
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-sm);
+    transition:
+        background var(--transition),
+        color var(--transition);
+    border: none;
+    cursor: pointer;
+}
+.modal-close:hover {
+    background: var(--rosa);
+    color: var(--rosa-escuro);
+}
+
+.carousel {
+    position: relative;
+    background: var(--areia);
+    aspect-ratio: 1;
+    overflow: hidden;
+    user-select: none;
+}
+.carousel-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.35s ease;
+}
+.carousel-slide {
+    min-width: 100%;
+    height: 100%;
+    position: relative;
+}
+.carousel-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.carousel-fallback {
+    display: none !important;
+}
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    background: rgba(255, 255, 255, 0.88);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    color: var(--texto);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
+    transition:
+        background var(--transition),
+        transform var(--transition);
+    z-index: 5;
+    border: none;
+    cursor: pointer;
+}
+.carousel-btn:hover {
+    background: var(--branco);
+    transform: translateY(-50%) scale(1.1);
+}
+.carousel-btn.prev {
+    left: 0.6rem;
+}
+.carousel-btn.next {
+    right: 0.6rem;
+}
+.carousel-btn[hidden] {
+    display: none;
+}
+.carousel-dots {
+    position: absolute;
+    bottom: 0.7rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 0.45rem;
+    z-index: 5;
+}
+.carousel-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.55);
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+    transition:
+        background var(--transition),
+        transform var(--transition);
+    padding: 0;
+}
+.carousel-dot.active {
+    background: var(--branco);
+    transform: scale(1.25);
+}
+
+.modal-info {
+    padding: 1.6rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    position: relative;
+}
+.modal-name {
+    font-family: var(--font-display);
+    font-size: clamp(1.4rem, 3vw, 1.75rem);
+    font-weight: 600;
+    line-height: 1.2;
+    padding-right: 2.5rem;
+}
+.modal-desc {
+    font-size: var(--font-size-base);
+    color: var(--texto-suave);
+    line-height: 1.65;
+    flex: 1;
+}
+.modal-custom-note {
+    font-size: var(--font-size-sm);
+    color: var(--sage-escuro);
+    background: rgba(168, 191, 170, 0.18);
+    border-left: 4px solid var(--sage-escuro);
+    padding: 0.55rem 0.85rem;
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    line-height: 1.5;
+}
+.modal-warning,
+.modal-medidas-aviso {
+    font-size: var(--font-size-sm);
+    color: var(--marrom);
+    background-color: var(--areia);
+    border: 1px solid var(--areia-escura);
+    border-left: 4px solid var(--rosa-escuro);
+    padding: 0.85rem;
+    border-radius: var(--radius-sm);
+    line-height: 1.5;
+    margin-top: 0.4rem;
+}
+.modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.85rem;
+    margin-top: 0.5rem;
+    padding-top: 0.85rem;
+    border-top: 1px solid var(--areia-escura);
+}
+.modal-price {
+    font-family: var(--font-display);
+    font-size: 1.85rem;
+    font-weight: 600;
+    color: var(--azul-deep);
+}
+
+@media (max-width: 640px) {
+    .modal-layout {
+        grid-template-columns: 1fr;
+    }
+    .carousel {
+        aspect-ratio: 4/3;
+    }
+    .modal-info {
+        padding: 1.2rem;
+    }
+}

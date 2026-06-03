@@ -1,0 +1,46 @@
+---
+import "../styles/global.css";
+import { CONFIG } from "../data/produtos";
+
+interface Props {
+    title?: string;
+    description?: string;
+}
+
+const { title = CONFIG.nomeAtelie, description = CONFIG.descricaoSite } =
+    Astro.props;
+
+const canonicalURL = new URL(
+    Astro.url.pathname,
+    Astro.site ?? "https://example.com",
+);
+---
+
+<!doctype html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content={description} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:type" content="website" />
+        <link rel="canonical" href={canonicalURL} />
+
+        <!-- Favicon inline (substitua por um arquivo real depois) -->
+        <link
+            rel="icon"
+            href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧶</text></svg>"
+        />
+
+        <title>{title}</title>
+    </head>
+    <body>
+        <slot />
+        <button
+            id="theme-toggle"
+            class="theme-toggle"
+            aria-label="Alternar tema claro/escuro">🌙</button
+        >
+    </body>
+</html>

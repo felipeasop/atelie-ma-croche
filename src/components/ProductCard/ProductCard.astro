@@ -1,0 +1,94 @@
+---
+import type { Produto } from "../../data/types";
+import { LABELS, ICONES } from "../../data/types";
+import { formatarPreco, wppLink, imgPath } from "../../utils/helpers";
+import { CONFIG } from "../../data/produtos";
+import "./card.css";
+
+interface Props {
+    produto: Produto;
+    imagensResolvidas: string[];
+}
+const { produto, imagensResolvidas } = Astro.props;
+
+const preco = formatarPreco(produto.preco);
+const wpp = wppLink(produto, CONFIG.whatsapp);
+const catLabel = LABELS[produto.categoria];
+const catIcone = ICONES[produto.categoria];
+const capaImg =
+    imagensResolvidas.length > 0 ? imgPath(imagensResolvidas[0]) : "";
+const temVarios = imagensResolvidas.length > 1;
+---
+
+<article
+    class="card"
+    data-id={produto.id}
+    tabindex="0"
+    role="button"
+    aria-label={`Ver fotos e detalhes de ${produto.nome}`}
+>
+    <div class="card-img-wrap">
+        {
+            capaImg && (
+                <img
+                    src={capaImg}
+                    alt={produto.nome}
+                    class="card-img"
+                    loading="lazy"
+                    data-img
+                />
+            )
+        }
+        <div class="card-img-fallback" aria-hidden="true">{catIcone}</div>
+
+        {
+            temVarios && (
+                <div
+                    class="card-foto-count"
+                    aria-label={`${imagensResolvidas.length} fotos`}
+                >
+                    <svg
+                        width="13"
+                        height="13"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        aria-hidden="true"
+                    >
+                        <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
+                    </svg>
+                    {imagensResolvidas.length}
+                </div>
+            )
+        }
+
+        <div class="badges">
+            {
+                produto.cor_personalizavel && (
+                    <span class="badge badge-cor-personalizavel">
+                        Cor Person.
+                    </span>
+                )
+            }
+            {
+                produto.sob_medida && (
+                    <span class="badge badge-sob-medida">Sob Medida</span>
+                )
+            }
+        </div>
+    </div>
+
+    <div class="card-body">
+        <h3 class="card-name">{produto.nome}</h3>
+        <p class="card-desc">{produto.descricao}</p>
+        <div class="card-footer">
+            <span class="card-price">{preco}</span>
+            <button
+                class="btn-order"
+                data-wpp={wpp}
+                aria-label={`Encomendar ${produto.nome} via WhatsApp`}
+            >
+                Encomendar
+            </button>
+        </div>
+    </div>
+</article>

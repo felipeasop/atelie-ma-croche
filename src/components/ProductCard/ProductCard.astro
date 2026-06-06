@@ -13,11 +13,17 @@ const { produto, imagensResolvidas } = Astro.props;
 
 const preco = formatarPreco(produto.preco);
 const wpp = wppLink(produto, CONFIG.whatsapp);
-const catLabel = LABELS[produto.categoria];
 const catIcone = ICONES[produto.categoria];
 const capaImg =
     imagensResolvidas.length > 0 ? imgPath(imagensResolvidas[0]) : "";
 const temVarios = imagensResolvidas.length > 1;
+
+// Lógica para mostrar tamanho ou contagem de itens de forma resumida
+const infoResumida = produto.tamanho
+    ? `Tam: ${produto.tamanho}`
+    : produto.itens && produto.itens.length > 0
+      ? `${produto.itens.length} peças`
+      : null;
 ---
 
 <article
@@ -63,13 +69,6 @@ const temVarios = imagensResolvidas.length > 1;
 
         <div class="badges">
             {
-                produto.cor_personalizavel && (
-                    <span class="badge badge-cor-personalizavel">
-                        Cor Person.
-                    </span>
-                )
-            }
-            {
                 produto.sob_medida && (
                     <span class="badge badge-sob-medida">Sob Medida</span>
                 )
@@ -79,7 +78,10 @@ const temVarios = imagensResolvidas.length > 1;
 
     <div class="card-body">
         <h3 class="card-name">{produto.nome}</h3>
-        <p class="card-desc">{produto.descricao}</p>
+
+        {/* Nova seção: Exibe tamanho ou quantidade de peças se houver */}
+        {infoResumida && <p class="card-info-resumida">{infoResumida}</p>}
+
         <div class="card-footer">
             <span class="card-price">{preco}</span>
             <button

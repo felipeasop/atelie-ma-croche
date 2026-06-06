@@ -2,171 +2,190 @@
    modal.css - Estilos do Modal
    ========================================= */
 
+/* ── Elemento <dialog> ─────────────────── */
 #modal {
     border: none;
     padding: 0;
     border-radius: var(--radius);
-    max-width: min(720px, 95vw);
+    max-width: min(800px, 95vw);
     width: 100%;
     box-shadow: var(--shadow-modal);
-    overflow: hidden;
     background: var(--branco);
     position: fixed;
     inset: 0;
     margin: auto;
+    /*
+        overflow: hidden aqui é correto — o scroll interno
+        fica em .modal-info. Sem isso o border-radius some
+        nos cantos da imagem.
+    */
+    overflow: hidden;
+    /*
+        max-height limita o modal à viewport.
+        Usa 90dvh (dynamic viewport height) para mobile
+        com fallback para 90vh em browsers mais antigos.
+    */
+    max-height: 90vh;
+    max-height: 90dvh;
 }
+
 #modal::backdrop {
     background: rgba(46, 36, 32, 0.6);
     backdrop-filter: blur(6px);
 }
+
+/* ── Layout lado a lado (desktop) ───────── */
 .modal-layout {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    position: relative;
+    grid-template-columns: 1fr 320px;
+    /*
+        A altura do layout = altura do modal.
+        Como #modal tem max-height, o layout cresce até
+        esse limite e não mais — eliminando o overflow.
+    */
+    height: 100%;
+    /*
+        min/max para garantir que em telas grandes o modal
+        não fique achatado, e em telas menores não estoure.
+    */
+    min-height: 380px;
+    max-height: 90vh;
+    max-height: 90dvh;
 }
+
+/* ── Botão fechar ───────────────────────── */
 .modal-close {
     position: absolute;
     top: 0.75rem;
     right: 0.75rem;
-    z-index: 10;
-    width: 40px;
-    height: 40px;
+    z-index: 20;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.95);
     color: var(--texto-suave);
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: var(--shadow-sm);
+    box-shadow: var(--shadow-md);
     transition:
         background var(--transition),
-        color var(--transition);
+        color var(--transition),
+        transform var(--transition);
     border: none;
     cursor: pointer;
 }
+
 .modal-close:hover {
     background: var(--rosa);
     color: var(--rosa-escuro);
+    transform: scale(1.08);
 }
 
-.carousel {
-    position: relative;
-    background: var(--areia);
-    aspect-ratio: 1;
-    overflow: hidden;
-    user-select: none;
-}
-.carousel-track {
-    display: flex;
-    height: 100%;
-    transition: transform 0.35s ease;
-}
-.carousel-slide {
-    min-width: 100%;
-    height: 100%;
-    position: relative;
-}
-.carousel-slide img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-.carousel-fallback {
-    display: none !important;
-}
-.carousel-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 44px;
-    height: 44px;
-    background: rgba(255, 255, 255, 0.88);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.3rem;
-    color: var(--texto);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
-    transition:
-        background var(--transition),
-        transform var(--transition);
-    z-index: 5;
-    border: none;
-    cursor: pointer;
-}
-.carousel-btn:hover {
-    background: var(--branco);
-    transform: translateY(-50%) scale(1.1);
-}
-.carousel-btn.prev {
-    left: 0.6rem;
-}
-.carousel-btn.next {
-    right: 0.6rem;
-}
-.carousel-btn[hidden] {
-    display: none;
-}
-.carousel-dots {
-    position: absolute;
-    bottom: 0.7rem;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 0.45rem;
-    z-index: 5;
-}
-.carousel-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.55);
-    border: 2px solid rgba(255, 255, 255, 0.8);
-    cursor: pointer;
-    transition:
-        background var(--transition),
-        transform var(--transition);
-    padding: 0;
-}
-.carousel-dot.active {
-    background: var(--branco);
-    transform: scale(1.25);
-}
-
+/* ── Coluna de informações ──────────────── */
 .modal-info {
-    padding: 1.6rem 1.5rem;
+    padding: 1.5rem 1.4rem 1.25rem;
     display: flex;
     flex-direction: column;
-    gap: 0.55rem;
+    gap: 0.7rem;
     position: relative;
+    /*
+        overflow-y: auto na coluna de texto — quando o conteúdo
+        (muitos itens, avisos) for maior que a coluna, o scroll
+        aparece só aqui, não no modal inteiro.
+        O footer (preço + botão) usa margin-top: auto para ficar
+        sempre visível na parte inferior da coluna.
+    */
+    overflow-y: auto;
+    height: 100%;
+    /* Scrollbar discreta */
+    scrollbar-width: thin;
+    scrollbar-color: var(--areia-escura) transparent;
 }
+
+.modal-info::-webkit-scrollbar {
+    width: 4px;
+}
+.modal-info::-webkit-scrollbar-track {
+    background: transparent;
+}
+.modal-info::-webkit-scrollbar-thumb {
+    background: var(--areia-escura);
+    border-radius: 4px;
+}
+
+/* ── Textos ─────────────────────────────── */
 .modal-name {
     font-family: var(--font-display);
-    font-size: clamp(1.4rem, 3vw, 1.75rem);
+    font-size: clamp(1.5rem, 2.5vw, 1.9rem);
     font-weight: 600;
     line-height: 1.2;
-    padding-right: 2.5rem;
+    padding-right: 2.8rem;
+    color: var(--texto);
 }
+
 .modal-desc {
     font-size: var(--font-size-base);
     color: var(--texto-suave);
     line-height: 1.65;
-    flex: 1;
 }
+
+/* ── Bloco itens / tamanho ──────────────── */
+.modal-info-extra {
+    background: var(--areia);
+    border-radius: var(--radius-sm);
+    padding: 0.8rem 1rem;
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+.modal-info-extra h4 {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--texto);
+    margin-bottom: 0.4rem;
+}
+
+.modal-info-extra ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.modal-info-extra ul li {
+    color: var(--texto-suave);
+    line-height: 1.5;
+}
+
+.modal-info-extra ul li::before {
+    content: "· ";
+    color: var(--azul-medio);
+    font-weight: 700;
+}
+
+.modal-info-extra p {
+    color: var(--texto-suave);
+}
+
+/* ── Nota personalização ────────────────── */
 .modal-custom-note {
-    font-size: var(--font-size-sm);
+    font-size: 1rem;
     color: var(--sage-escuro);
     background: rgba(168, 191, 170, 0.18);
     border-left: 4px solid var(--sage-escuro);
-    padding: 0.55rem 0.85rem;
+    padding: 0.6rem 0.9rem;
     border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
     line-height: 1.5;
+    flex-shrink: 0;
 }
+
+/* ── Aviso sob medida ───────────────────── */
 .modal-warning,
 .modal-medidas-aviso {
-    font-size: var(--font-size-sm);
+    font-size: 1rem;
     color: var(--marrom);
     background-color: var(--areia);
     border: 1px solid var(--areia-escura);
@@ -174,33 +193,141 @@
     padding: 0.85rem;
     border-radius: var(--radius-sm);
     line-height: 1.5;
-    margin-top: 0.4rem;
-}
-.modal-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 0.85rem;
-    margin-top: 0.5rem;
-    padding-top: 0.85rem;
-    border-top: 1px solid var(--areia-escura);
-}
-.modal-price {
-    font-family: var(--font-display);
-    font-size: 1.85rem;
-    font-weight: 600;
-    color: var(--azul-deep);
+    flex-shrink: 0;
 }
 
+/* ── Rodapé: preço + botão ──────────────── */
+.modal-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.6rem;
+    margin-top: auto;
+    padding-top: 0.85rem;
+    border-top: 1px solid var(--areia-escura);
+    flex-shrink: 0;
+}
+
+.modal-price {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--azul-deep);
+    line-height: 1;
+}
+
+/* ── Botão WhatsApp ─────────────────────── */
+.modal-info .btn-wpp {
+    background: #25d366;
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(37, 211, 102, 0.35);
+    font-size: 1.1rem; /* Aumentei um pouco a fonte */
+    font-weight: 700;
+
+    /* Padding maior para o botão ficar robusto */
+    padding: 1rem 2rem;
+
+    min-height: 56px;
+    border-radius: var(--radius-pill);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem; /* Espaço entre o ícone e o texto */
+
+    transition:
+        background var(--transition),
+        transform var(--transition),
+        box-shadow var(--transition);
+    border: none;
+    cursor: pointer;
+    width: 100%; /* Ocupa a largura total para ficar confortável */
+}
+
+/* Estilo do ícone dentro do botão */
+.modal-info .btn-wpp .wpp-icon {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+}
+
+.modal-info .btn-wpp:hover {
+    background: #1da851;
+    transform: scale(1.02);
+    box-shadow: 0 6px 18px rgba(37, 211, 102, 0.45);
+}
+
+/* =========================================
+   Mobile — bottom sheet
+   ========================================= */
 @media (max-width: 640px) {
+    #modal {
+        position: fixed;
+        inset: auto 0 0 0;
+        margin: 0;
+        max-width: 100%;
+        /*
+            No mobile o modal cresce conforme o conteúdo
+            e para em 92% da tela. overflow-y: auto aqui
+            porque o .modal-layout não tem altura fixa.
+        */
+        max-height: 92vh;
+        max-height: 92dvh;
+        height: auto;
+        border-radius: 20px 20px 0 0;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
     .modal-layout {
         grid-template-columns: 1fr;
+        height: auto;
+        min-height: unset;
+        max-height: unset;
     }
-    .carousel {
-        aspect-ratio: 4/3;
+
+    /* Pill de arraste no topo do bottom sheet */
+    .modal-layout::before {
+        content: "";
+        display: block;
+        width: 40px;
+        height: 4px;
+        background: var(--areia-escura);
+        border-radius: 2px;
+        margin: 0.75rem auto 0;
+        grid-column: 1;
     }
+
     .modal-info {
-        padding: 1.2rem;
+        padding: 1.25rem 1rem 1.5rem;
+        height: auto;
+        /*
+            No mobile o scroll está no #modal — aqui não precisa.
+        */
+        overflow-y: visible;
+        padding-bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
+    }
+
+    .modal-name {
+        font-size: 1.5rem;
+        padding-right: 3rem;
+    }
+
+    .modal-footer {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.65rem;
+        margin-top: 0.75rem;
+    }
+
+    .modal-price {
+        font-size: 1.75rem;
+        text-align: center;
+    }
+
+    .modal-info .btn-wpp {
+        width: 100%;
+        justify-content: center;
+        font-size: 1.05rem;
+        min-height: 56px;
     }
 }

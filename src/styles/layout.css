@@ -1,0 +1,364 @@
+/* =========================================
+   layout.css — Estrutura global da página
+   ========================================= */
+
+/* Fundo decorativo fixo */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background:
+        radial-gradient(
+            ellipse at 15% 15%,
+            rgba(184, 216, 232, 0.2) 0%,
+            transparent 55%
+        ),
+        radial-gradient(
+            ellipse at 85% 85%,
+            rgba(212, 165, 160, 0.14) 0%,
+            transparent 55%
+        );
+}
+
+body > * {
+    position: relative;
+    z-index: 1;
+}
+
+.container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* =========================================
+   Botão WhatsApp — base compartilhada
+   (usado no banner e no modal)
+   ========================================= */
+.btn-wpp {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-weight: 700;
+    font-size: var(--font-size-sm);
+    padding: 0.7rem 1.4rem;
+    min-height: var(--touch-min);
+    border-radius: var(--radius-pill);
+    transition:
+        background var(--transition),
+        transform var(--transition),
+        box-shadow var(--transition);
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.btn-wpp:hover {
+    transform: scale(1.03);
+}
+
+/* =========================================
+   Header
+   ========================================= */
+.site-header {
+    text-align: center;
+    padding: 3rem 1rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.header-logo {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    border-radius: 50%;
+    margin-bottom: 0.25rem;
+}
+
+.header-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 6vw, 3.2rem);
+    font-weight: 300;
+    letter-spacing: 0.01em;
+    color: var(--texto);
+    line-height: 1.1;
+}
+
+.header-title em {
+    font-style: italic;
+    color: var(--azul-deep);
+}
+
+.header-sub {
+    font-size: var(--font-size-sm);
+    color: var(--texto-suave);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-weight: 400;
+}
+
+/* =========================================
+   Navegação de âncoras (sticky)
+   ========================================= */
+.cat-anchors {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(250, 246, 240, 0.92);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--areia-escura);
+    padding: 0.6rem 0;
+}
+
+[data-theme="dark"] .cat-anchors {
+    background: rgba(44, 39, 34, 0.92);
+}
+
+.cat-anchors-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 1rem;
+    display: flex;
+    gap: 0.4rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.cat-anchors-inner::-webkit-scrollbar {
+    display: none;
+}
+
+.btn-anchor {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.45rem 0.9rem;
+    border-radius: var(--radius-pill);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--texto-suave);
+    white-space: nowrap;
+    transition:
+        background var(--transition),
+        color var(--transition);
+    flex-shrink: 0;
+}
+
+.btn-anchor:hover,
+.btn-anchor.active {
+    background: var(--azul);
+    color: var(--azul-darker);
+}
+
+/* =========================================
+   Wrapper do catálogo
+   ========================================= */
+.catalog-wrapper {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 1rem 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 3.5rem;
+}
+
+/* =========================================
+   Seção de categoria
+   ========================================= */
+.cat-section {
+    scroll-margin-top: 60px; /* compensa o nav sticky */
+}
+
+.cat-section-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.85rem;
+    border-bottom: 2px solid var(--areia-escura);
+}
+
+.cat-section-icon {
+    font-size: 2rem;
+    line-height: 1;
+    width: 52px;
+    height: 52px;
+    background: var(--areia);
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.cat-section-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 3.5vw, 2rem);
+    font-weight: 400;
+    font-style: italic;
+    color: var(--texto);
+    line-height: 1.2;
+}
+
+.cat-section-count {
+    font-size: var(--font-size-sm);
+    color: var(--texto-suave);
+    margin-top: 0.1rem;
+}
+
+/* =========================================
+   Grid de produtos
+   ========================================= */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.5rem;
+    align-items: stretch;
+}
+
+/* =========================================
+   Divider decorativo
+   ========================================= */
+.divider {
+    text-align: center;
+    color: var(--azul-medio);
+    font-size: 1.2rem;
+    letter-spacing: 0.4em;
+    padding: 2rem 0 1.5rem;
+    opacity: 0.6;
+}
+
+/* =========================================
+   Footer
+   ========================================= */
+.site-footer {
+    text-align: center;
+    padding: 2rem 1rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: var(--font-size-sm);
+    color: var(--texto-suave);
+    border-top: 1px solid var(--areia-escura);
+}
+
+.footer-name {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--texto);
+}
+
+.footer-ig a {
+    color: var(--azul-deep);
+    font-weight: 600;
+}
+
+.footer-ig a:hover {
+    text-decoration: underline;
+}
+
+/* =========================================
+   Botão de tema (canto fixo)
+   ========================================= */
+.theme-toggle {
+    position: fixed;
+    bottom: 1.25rem;
+    right: 1.25rem;
+    z-index: 100;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--branco);
+    box-shadow: var(--shadow-md);
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--areia-escura);
+    transition:
+        background var(--transition),
+        transform var(--transition);
+}
+
+.theme-toggle:hover {
+    transform: scale(1.1);
+    background: var(--areia);
+}
+
+/* =========================================
+   Responsivo
+   ========================================= */
+@media (max-width: 640px) {
+    .site-header {
+        padding: 2rem 1rem 1.5rem;
+    }
+
+    .header-logo {
+        width: 64px;
+        height: 64px;
+    }
+
+    .header-sub {
+        /* Ligeiramente maior em mobile para legibilidade 60+ */
+        font-size: 0.9rem;
+        letter-spacing: 0.04em;
+    }
+
+    .cat-anchors {
+        padding: 0.5rem 0;
+    }
+
+    .btn-anchor {
+        /*
+            48px de altura mínima: área de toque WCAG para dedos
+            menos precisos. Fonte um pouco maior também.
+        */
+        min-height: 48px;
+        font-size: 1rem;
+        padding: 0.5rem 1rem;
+    }
+
+    .catalog-wrapper {
+        gap: 2.5rem;
+        padding: 0 0.75rem 2rem;
+    }
+
+    .cat-section-header {
+        gap: 0.75rem;
+        margin-bottom: 1.1rem;
+    }
+
+    .cat-section-icon {
+        width: 44px;
+        height: 44px;
+        font-size: 1.6rem;
+    }
+
+    .product-grid {
+        /*
+            2 colunas fixas em mobile: mais previsível que auto-fill
+            com minmax pequeno, e cada card fica com ~160px+ de largura
+            numa tela de 360px — confortável para ver a foto e ler o nome.
+        */
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.85rem;
+    }
+
+    .theme-toggle {
+        /*
+            Move para não sobrepor o botão de encomendar dos cards
+            quando o usuário rola até o final.
+        */
+        bottom: 1rem;
+        right: 0.75rem;
+        width: 42px;
+        height: 42px;
+    }
+}

@@ -1,7 +1,3 @@
-/* =========================================
-   _base.css - Variáveis, Reset e Dark Mode
-   ========================================= */
-
 :root {
     --azul: #b8d8e8;
     --azul-medio: #7aafc4;
@@ -18,6 +14,18 @@
     --texto: #2e2420;
     --texto-suave: #6a5a52;
     --branco: #ffffff;
+
+    /*
+        --card-bg é separado de --branco propositalmente.
+        No dark mode o fundo do site escurece, mas os cards
+        ficam brancos com fonte escura — legíveis e limpos.
+        Nunca altere --card-bg no [data-theme="dark"].
+    */
+    --card-bg: #ffffff;
+    --card-texto: #2e2420;
+    --card-texto-suave: #6a5a52;
+    --card-borda: #e8d5bc;
+    --card-footer-borda: #e8d5bc;
 
     --font-display: "Cormorant Garamond", Georgia, serif;
     --font-body: "Nunito", system-ui, sans-serif;
@@ -37,67 +45,6 @@
     --touch-min: 48px;
 }
 
-*,
-*::before,
-*::after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-html {
-    scroll-behavior: smooth;
-    -webkit-text-size-adjust: 100%;
-}
-
-body {
-    font-family: var(--font-body);
-    font-size: var(--font-size-base);
-    background: var(--creme);
-    color: var(--texto);
-    line-height: 1.65;
-}
-
-img {
-    display: block;
-    max-width: 100%;
-}
-a {
-    color: inherit;
-    text-decoration: none;
-}
-button {
-    cursor: pointer;
-    border: none;
-    background: none;
-    font-family: inherit;
-    font-size: inherit;
-}
-
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-    background:
-        radial-gradient(
-            ellipse at 15% 15%,
-            rgba(184, 216, 232, 0.2) 0%,
-            transparent 55%
-        ),
-        radial-gradient(
-            ellipse at 85% 85%,
-            rgba(212, 165, 160, 0.14) 0%,
-            transparent 55%
-        );
-}
-
-body > * {
-    position: relative;
-    z-index: 1;
-}
-
 [data-theme="dark"] {
     --creme: #2c2722;
     --areia: #3a342d;
@@ -110,4 +57,13 @@ body > * {
     --azul-deep: #3a7a8f;
     --rosa: #c18f85;
     --sage: #7f9f85;
+
+    /*
+        Cards intencionalmente mantidos brancos no dark mode.
+        --card-bg, --card-texto, --card-texto-suave, --card-borda
+        e --card-footer-borda NÃO são redefinidos aqui — ficam
+        com os valores do :root (fundo branco, texto escuro).
+        Apenas o fundo da página (--creme) e elementos globais
+        ficam escuros.
+    */
 }

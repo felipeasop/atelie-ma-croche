@@ -1,5 +1,5 @@
 ---
-import "../styles/global.css";
+import "../styles/main.css";
 import { CONFIG } from "../data/produtos";
 
 interface Props {
@@ -26,13 +26,10 @@ const canonicalURL = new URL(
         <meta property="og:description" content={description} />
         <meta property="og:type" content="website" />
         <link rel="canonical" href={canonicalURL} />
-
-        <!-- Favicon inline (substitua por um arquivo real depois) -->
         <link
             rel="icon"
             href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧶</text></svg>"
         />
-
         <title>{title}</title>
     </head>
     <body>
@@ -40,7 +37,9 @@ const canonicalURL = new URL(
         <button
             id="theme-toggle"
             class="theme-toggle"
-            aria-label="Alternar tema claro/escuro">🌙</button
+            aria-label="Alternar tema claro/escuro"
         >
+            🌙
+        </button>
     </body>
 </html>

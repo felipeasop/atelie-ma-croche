@@ -10,12 +10,12 @@ export type Categoria =
 export interface Produto {
   id: number;
   nome: string;
-  descricao: string;
   preco: number;
   categoria: Categoria;
   imagens: string[];
-  cor_personalizavel?: boolean;
-  sob_medida?: boolean;
+  sob_medida: boolean;
+  itens?: string[];
+  tamanho?: string;
 }
 
 export interface ConfigSite {

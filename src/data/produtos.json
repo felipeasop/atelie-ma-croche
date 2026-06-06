@@ -14,11 +14,17 @@
   "jogo-de-banheiro-flor-de-laranjeira": {
     "nome": "Jogo de Banheiro Flor de Laranjeira",
     "preco": 160,
-    "descricao": "Três peças"
+    "itens": ["Três peças"]
   },
   "jogo-de-banheiro-modelo-jerusa": {
     "nome": "Jogo de Banheiro Modelo Jerusa",
-    "preco": 350
+    "preco": 350,
+    "itens": [
+      "Tampa do vaso",
+      "Encaixe do pé do vaso",
+      "Suporte para papel higiênico",
+      "Tapete normal"
+    ]
   },
   "jogo-de-banheiro-oval-com-tulipa-tapete": {
     "nome": "Jogo de Banheiro Oval com Tulipa",
@@ -28,17 +34,20 @@
   "jogo-de-cozinha-basico": {
     "nome": "Jogo de Cozinha Básico",
     "preco": 50,
-    "descricao": "Dois tapetes simples"
+    "itens": ["Dois tapetes simples"]
   },
   "jogo-de-cozinha-janice": {
     "nome": "Jogo de Cozinha Janice",
     "preco": 0,
-    "descricao": "Passadeira + 2 Tapetes 110, Passadeira + 3 Tapetes 160"
+    "itens": [
+      "Passadeira + 2 Tapetes (R$ 110)",
+      "Passadeira + 3 Tapetes (R$ 160)"
+    ]
   },
   "jogo-de-cozinha-maria": {
     "nome": "Jogo de Cozinha Maria",
     "preco": 550,
-    "descricao": "Passadeira e dois tapetes"
+    "itens": ["Passadeira", "Dois tapetes"]
   },
   "jogo-de-cozinha-oval-com-tulipas": {
     "nome": "Jogo de Cozinha Oval com Tulipas",
@@ -47,13 +56,13 @@
   "jogo-de-cozinha-quadrado-com-coracoes": {
     "nome": "Jogo de Cozinha Quadrado com Corações",
     "preco": 180,
-    "descricao": "Passadeira e dois tapetes"
+    "itens": ["Passadeira", "Dois tapetes"]
   },
 
   "jogo-da-velha-abelha-ou-joaninha-": {
     "nome": "Jogo da Velha Abelha ou Joaninha",
     "preco": 75,
-    "descricao": "Tamanho: 30x30"
+    "tamanho": "30x30"
   },
   "quadro-de-croche-tubarao": {
     "nome": "Quadro de Crochê Tubarão",
@@ -89,7 +98,7 @@
   "trilho-de-mesa-soft": {
     "nome": "Trilho de Mesa Soft",
     "preco": 100,
-    "descricao": "1,50m"
+    "tamanho": "1,50m"
   },
 
   "conjunto-mar": { "nome": "Conjunto Mar", "preco": 190 },

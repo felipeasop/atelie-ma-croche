@@ -1,5 +1,11 @@
 {
-  "extends": "astro/tsconfigs/strict",
-  "include": [".astro/types.d.ts", "**/*"],
-  "exclude": ["dist"]
+  "extends": "astro/tsconfigs/strict", // Ou "astro/tsconfigs/base" dependendo do seu setup
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext", // <--- ISSO RESOLVE O SEU ERRO
+    "moduleResolution": "bundler", // <--- ESSENCIAL para o Vite/Astro entenderem os imports
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+  },
 }

@@ -1,11 +1,12 @@
 {
-  "extends": "astro/tsconfigs/strict", // Ou "astro/tsconfigs/base" dependendo do seu setup
+  "extends": "astro/tsconfigs/strict",
   "compilerOptions": {
     "target": "ESNext",
-    "module": "ESNext", // <--- ISSO RESOLVE O SEU ERRO
-    "moduleResolution": "bundler", // <--- ESSENCIAL para o Vite/Astro entenderem os imports
+    "module": "ESNext",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-  },
+    "allowImportingTsExtensions": true
+  }
 }

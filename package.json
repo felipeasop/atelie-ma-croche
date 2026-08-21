@@ -1,5 +1,5 @@
 {
-  "name": "ma-croche",
+  "name": "atelie-ma-croche",
   "type": "module",
   "version": "0.0.1",
   "engines": {
@@ -9,10 +9,13 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "test": "node --experimental-strip-types --test tests/*.test.ts",
+    "check": "npm run test && npm run build",
     "astro": "astro"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
-    "astro": "^6.4.2"
+    "astro": "^6.4.2",
+    "zod": "^4.4.3"
   }
 }

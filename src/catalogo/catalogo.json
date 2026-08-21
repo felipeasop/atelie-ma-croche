@@ -1,0 +1,188 @@
+{
+  "cozinha": {
+    "jogo-de-cozinha-basico": {
+      "nome": "Jogo de Cozinha Básico",
+      "preco": 50,
+      "componentes": [
+        { "nome": "Passadeira" },
+        { "nome": "Tapete", "quantidade": 2 }
+      ]
+    },
+    "jogo-de-cozinha-janice": {
+      "nome": "Jogo de Cozinha Janice",
+      "variantes": [
+        {
+          "descricao": "Passadeira + 2 tapetes",
+          "preco": 110,
+          "componentes": [
+            { "nome": "Passadeira" },
+            { "nome": "Tapete", "quantidade": 2 }
+          ]
+        },
+        {
+          "descricao": "Passadeira + 3 tapetes",
+          "preco": 160,
+          "componentes": [
+            { "nome": "Passadeira" },
+            { "nome": "Tapete", "quantidade": 3 }
+          ]
+        }
+      ]
+    },
+    "jogo-de-cozinha-maria": {
+      "nome": "Jogo de Cozinha Maria",
+      "preco": 550,
+      "componentes": [
+        { "nome": "Passadeira" },
+        { "nome": "Tapete", "quantidade": 2 }
+      ]
+    },
+    "jogo-de-cozinha-oval-com-tulipas": {
+      "nome": "Jogo de Cozinha Oval com Tulipas",
+      "preco": 110,
+      "componentes": [
+        { "nome": "Passadeira" },
+        { "nome": "Tapete", "quantidade": 2 }
+      ]
+    },
+    "jogo-de-cozinha-quadrado-com-coracoes": {
+      "nome": "Jogo de Cozinha Quadrado com Corações",
+      "preco": 180,
+      "componentes": [
+        { "nome": "Passadeira" },
+        { "nome": "Tapete", "quantidade": 2 }
+      ]
+    }
+  },
+  "mesa": {
+    "souplast-basico": { "nome": "Sousplat Básico", "preco": 15 },
+    "souplast-de-coracao": {
+      "nome": "Sousplat de Coração",
+      "preco": 30
+    },
+    "souplast-nobreza": { "nome": "Sousplat Nobreza", "preco": 40 },
+    "souplast-quadrado-simples": {
+      "nome": "Sousplat Quadrado Simples",
+      "preco": 30
+    },
+    "souplast-simples-com-tulipas": {
+      "nome": "Sousplat Simples com Tulipas",
+      "preco": 25
+    },
+    "trilho-de-mesa-flor": {
+      "nome": "Trilho de Mesa Flor",
+      "preco": 65
+    },
+    "trilho-de-mesa-modelo-folha": {
+      "nome": "Trilho de Mesa Modelo Folha",
+      "preco": 50
+    },
+    "trilho-de-mesa-soft": {
+      "nome": "Trilho de Mesa Soft",
+      "preco": 100,
+      "medidas": "1,50 m"
+    }
+  },
+  "banheiro": {
+    "jogo-de-banheiro-duas-pecas-basico": {
+      "nome": "Jogo de Banheiro Duas Peças Básico",
+      "preco": 100,
+      "componentes": [
+        { "nome": "Tapete" },
+        { "nome": "Tampa do vaso" }
+      ]
+    },
+    "jogo-de-banheiro-flor-de-laranjeira": {
+      "nome": "Jogo de Banheiro Flor de Laranjeira",
+      "preco": 160,
+      "componentes": [
+        { "nome": "Tapete" },
+        { "nome": "Encaixe do vaso" },
+        { "nome": "Tampa do vaso" }
+      ]
+    },
+    "jogo-de-banheiro-modelo-jerusa": {
+      "nome": "Jogo de Banheiro Modelo Jerusa",
+      "preco": 350,
+      "componentes": [
+        { "nome": "Tampa do vaso" },
+        { "nome": "Encaixe do vaso" },
+        { "nome": "Suporte para papel higiênico" },
+        { "nome": "Tapete" }
+      ]
+    },
+    "jogo-de-banheiro-oval-com-tulipa": {
+      "nome": "Jogo de Banheiro Oval com Tulipa",
+      "preco": 195,
+      "componentes": [
+        { "nome": "Tapete" },
+        { "nome": "Encaixe do vaso" },
+        { "nome": "Tampa do vaso" },
+        { "nome": "Suporte para papel higiênico" }
+      ]
+    }
+  },
+  "decoracao": {
+    "jogo-da-velha-abelha-ou-joaninha-": {
+      "nome": "Jogo da Velha Abelha ou Joaninha",
+      "preco": 75,
+      "medidas": "30 × 30 cm"
+    },
+    "quadro-de-croche-tubarao": {
+      "nome": "Quadro de Crochê Tubarão",
+      "preco": 60
+    },
+    "tapete-aninha": { "nome": "Tapete Aninha", "preco": 25 },
+    "tapete-coracao": { "nome": "Tapete Coração", "preco": 90 },
+    "tapete-janete": { "nome": "Tapete Janete", "preco": 55 },
+    "tapete-jaque-com-bico-coroa": {
+      "nome": "Tapete Jaque com Bico Coroa",
+      "preco": 70
+    },
+    "tapete-mary": { "nome": "Tapete Mary", "preco": 50 },
+    "tapete-oval-simples": {
+      "nome": "Tapete Oval Simples",
+      "preco": 35
+    },
+    "tapete-sara": { "nome": "Tapete Sara", "preco": 25 }
+  },
+  "roupa": {
+    "conjunto-mar": {
+      "nome": "Conjunto Mar",
+      "preco": 190,
+      "sobMedida": true,
+      "componentes": [
+        { "nome": "Top" },
+        { "nome": "Saia" }
+      ]
+    },
+    "shorts-de-croche": {
+      "nome": "Shorts de Crochê",
+      "preco": 50,
+      "sobMedida": true
+    },
+    "top-florzinha-para-sobreposicao": {
+      "nome": "Top Florzinha para Sobreposição",
+      "preco": 40,
+      "sobMedida": true
+    },
+    "top-mosaico": {
+      "nome": "Top Mosaico",
+      "preco": 140,
+      "sobMedida": true
+    }
+  },
+  "chaveiro": {},
+  "acessorio": {
+    "bolsa-bella": { "nome": "Bolsa Bella", "preco": 110 },
+    "bolsa-de-ombro-coracao": {
+      "nome": "Bolsa de Ombro Coração",
+      "preco": 140
+    },
+    "bolsa-mandala": { "nome": "Bolsa Mandala", "preco": 180 },
+    "bolsa-square-de-coracoes": {
+      "nome": "Bolsa Square de Corações",
+      "preco": 60
+    }
+  }
+}

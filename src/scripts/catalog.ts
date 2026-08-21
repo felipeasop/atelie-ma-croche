@@ -1,46 +1,46 @@
-import type { Produto } from "../data/types";
-import { abrirModal, initModal } from "../components/Modal/modal";
-import { animarCards } from "./modules/animations";
-import { inicializarFallbacks } from "./modules/fallbacks";
-import { initTheme } from "./modules/theme";
+import type { Produto } from "../catalogo/tipos.ts";
+import {
+  abrirModalProduto,
+  iniciarModalProduto,
+} from "../components/Modal/modal.ts";
+import { iniciarAnimacoes } from "./modules/animations.ts";
+import { iniciarNavegacaoCategorias } from "./modules/navigation.ts";
+import { iniciarTema } from "./modules/theme.ts";
 
-interface AppConfig {
+interface DadosCliente {
+  produtos: Produto[];
   whatsapp: string;
 }
 
-export function initCatalog(): void {
-  const appData = document.getElementById("app-data");
-  if (!appData) return;
+function lerDadosCliente(): DadosCliente | null {
+  const elemento = document.getElementById("catalog-data");
+  if (!elemento?.textContent) return null;
 
-  const produtos: Produto[] = JSON.parse(appData.dataset.produtos ?? "[]");
-  const config: AppConfig = JSON.parse(appData.dataset.config ?? "{}");
+  try {
+    return JSON.parse(elemento.textContent) as DadosCliente;
+  } catch (erro) {
+    console.error("Não foi possível carregar os dados do catálogo.", erro);
+    return null;
+  }
+}
 
-  // Cards → abre modal ao clicar
-  document.querySelectorAll<HTMLElement>(".card").forEach((card) => {
-    const produto = produtos.find((p) => p.id === Number(card.dataset.id));
-    if (!produto) return;
+export function iniciarCatalogo(): void {
+  const dados = lerDadosCliente();
+  if (!dados) return;
 
-    const abrir = () => abrirModal(produto, config.whatsapp);
-    card.addEventListener("click", abrir);
-    card.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        abrir();
-      }
-    });
+  const produtos = new Map(dados.produtos.map((produto) => [produto.id, produto]));
+
+  document.addEventListener("click", (evento) => {
+    const alvo = evento.target as Element | null;
+    const gatilho = alvo?.closest<HTMLElement>("[data-open-product]");
+    if (!gatilho) return;
+
+    const produto = produtos.get(gatilho.dataset.openProduct ?? "");
+    if (produto) abrirModalProduto(produto, dados.whatsapp);
   });
 
-  // Botão "Encomendar" no card — abre WhatsApp direto sem modal
-  document.querySelectorAll<HTMLButtonElement>(".btn-order").forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      const link = btn.dataset.wpp;
-      if (link) window.open(link, "_blank");
-    });
-  });
-
-  initModal();
-  animarCards();
-  inicializarFallbacks();
-  initTheme();
+  iniciarModalProduto();
+  iniciarNavegacaoCategorias();
+  iniciarAnimacoes();
+  iniciarTema();
 }

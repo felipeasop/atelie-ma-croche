@@ -1,69 +1,70 @@
 :root {
-    --azul: #b8d8e8;
-    --azul-medio: #7aafc4;
-    --azul-deep: #4a8ba4;
-    --azul-darker: #2d6e87;
-    --areia: #f5ede0;
-    --areia-escura: #e8d5bc;
-    --rosa: #d4a5a0;
-    --rosa-escuro: #b87d78;
-    --sage: #a8bfaa;
-    --sage-escuro: #5a8a5e;
-    --creme: #faf6f0;
-    --marrom: #5c3d2e;
-    --texto: #2e2420;
-    --texto-suave: #6a5a52;
-    --branco: #ffffff;
+    color-scheme: light;
 
-    /*
-        --card-bg é separado de --branco propositalmente.
-        No dark mode o fundo do site escurece, mas os cards
-        ficam brancos com fonte escura — legíveis e limpos.
-        Nunca altere --card-bg no [data-theme="dark"].
-    */
-    --card-bg: #ffffff;
-    --card-texto: #2e2420;
-    --card-texto-suave: #6a5a52;
-    --card-borda: #e8d5bc;
-    --card-footer-borda: #e8d5bc;
+    --page-bg: #f8f3ec;
+    --surface-raised: #ffffff;
+    --surface-soft: #f1e7da;
+    --surface-translucent: rgba(248, 243, 236, 0.92);
+    --text: #3f342e;
+    --text-strong: #2d2521;
+    --text-muted: #71625a;
+    --border: #dfd1c2;
+    --card-border: #e5d8cb;
 
-    --font-display: "Cormorant Garamond", Georgia, serif;
-    --font-body: "Nunito", system-ui, sans-serif;
+    --color-primary: #4f879e;
+    --color-primary-strong: #326a80;
+    --color-primary-deep: #28586b;
+    --color-primary-soft: #c7e1eb;
+    --color-primary-faint: #eef7fa;
+    --action-primary: #326a80;
+    --action-primary-hover: #24586c;
+    --color-accent: #b77a72;
+    --color-accent-soft: #f4e3df;
+    --color-success: #56815d;
+    --color-success-soft: #e7f0e7;
+    --focus-ring: #1d708f;
 
-    --shadow-sm: 0 2px 10px rgba(74, 139, 164, 0.1);
-    --shadow-md: 0 4px 24px rgba(58, 46, 40, 0.11);
-    --shadow-lg: 0 10px 40px rgba(74, 139, 164, 0.22);
-    --shadow-modal: 0 24px 64px rgba(58, 46, 40, 0.3);
+    --font-display: Georgia, "Times New Roman", serif;
+    --font-body: "Avenir Next", Avenir, "Segoe UI", system-ui, sans-serif;
 
-    --radius: 16px;
+    --shadow-sm: 0 2px 10px rgba(52, 42, 36, 0.12);
+    --shadow-card: 0 7px 24px rgba(52, 42, 36, 0.09);
+    --shadow-card-hover: 0 14px 34px rgba(52, 42, 36, 0.16);
+    --shadow-modal: 0 28px 80px rgba(32, 25, 21, 0.36);
+
     --radius-sm: 10px;
+    --radius-md: 14px;
+    --radius-lg: 18px;
+    --radius-xl: 24px;
     --radius-pill: 999px;
-    --transition: 0.22s ease;
-    --max-width: 1100px;
-    --font-size-base: 1.05rem;
-    --font-size-sm: 0.95rem;
-    --touch-min: 48px;
+    --transition-fast: 180ms ease;
+    --transition-slow: 360ms ease;
+    --content-width: 1120px;
 }
 
 [data-theme="dark"] {
-    --creme: #2c2722;
-    --areia: #3a342d;
-    --areia-escura: #4a4238;
-    --texto: #f0e9df;
-    --texto-suave: #c8b9a8;
-    --marrom: #d4b89f;
-    --azul: #7fb4c9;
-    --azul-medio: #5f95a8;
-    --azul-deep: #3a7a8f;
-    --rosa: #c18f85;
-    --sage: #7f9f85;
+    color-scheme: dark;
 
-    /*
-        Cards intencionalmente mantidos brancos no dark mode.
-        --card-bg, --card-texto, --card-texto-suave, --card-borda
-        e --card-footer-borda NÃO são redefinidos aqui — ficam
-        com os valores do :root (fundo branco, texto escuro).
-        Apenas o fundo da página (--creme) e elementos globais
-        ficam escuros.
-    */
+    --page-bg: #211d1a;
+    --surface-raised: #302a26;
+    --surface-soft: #3a332e;
+    --surface-translucent: rgba(33, 29, 26, 0.93);
+    --text: #eee5dd;
+    --text-strong: #fffaf5;
+    --text-muted: #c8b9ad;
+    --border: #534941;
+    --card-border: #493f39;
+
+    --color-primary: #91c0d1;
+    --color-primary-strong: #a9d2df;
+    --color-primary-deep: #326f86;
+    --color-primary-soft: #315968;
+    --color-primary-faint: #29424b;
+    --action-primary: #3e8198;
+    --action-primary-hover: #4f94ac;
+    --color-accent: #d4a099;
+    --color-accent-soft: #523b37;
+    --color-success: #9dc3a3;
+    --color-success-soft: #314637;
+    --focus-ring: #90d4ed;
 }

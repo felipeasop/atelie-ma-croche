@@ -1,96 +1,102 @@
 ---
-import type { Produto } from "../../data/types";
-import { LABELS, ICONES } from "../../data/types";
-import { formatarPreco, wppLink, imgPath } from "../../utils/helpers";
-import { CONFIG } from "../../data/produtos";
+import type { Produto } from "../../catalogo/tipos.ts";
+import {
+    CATEGORIAS_INFO,
+    produtoTemVariantes,
+} from "../../catalogo/tipos.ts";
+import {
+    caminhoImagem,
+    criarLinkWhatsApp,
+    precoExibicao,
+    resumoProduto,
+} from "../../catalogo/produto.ts";
+import { SITE_CONFIG } from "../../config/site.ts";
 import "./card.css";
 
 interface Props {
     produto: Produto;
-    imagensResolvidas: string[];
+    prioridade?: boolean;
 }
-const { produto, imagensResolvidas } = Astro.props;
 
-const preco = formatarPreco(produto.preco);
-const wpp = wppLink(produto, CONFIG.whatsapp);
-const catIcone = ICONES[produto.categoria];
-const capaImg =
-    imagensResolvidas.length > 0 ? imgPath(imagensResolvidas[0]) : "";
-const temVarios = imagensResolvidas.length > 1;
-
-// Lógica para mostrar tamanho ou contagem de itens de forma resumida
-const infoResumida = produto.tamanho
-    ? `Tam: ${produto.tamanho}`
-    : produto.itens && produto.itens.length > 0
-      ? `${produto.itens.length} peças`
-      : null;
+const { produto, prioridade = false } = Astro.props;
+const categoria = CATEGORIAS_INFO[produto.categoria];
+const capa = produto.imagens[0];
+const resumo = resumoProduto(produto);
+const temVariasFotos = produto.imagens.length > 1;
+const temVariantes = produtoTemVariantes(produto);
+const idTitulo = `produto-${produto.categoria}-${produto.slug}`;
+const linkWhatsApp = temVariantes
+    ? null
+    : criarLinkWhatsApp(produto, SITE_CONFIG.whatsapp);
 ---
 
-<article
-    class="card"
-    data-id={produto.id}
-    tabindex="0"
-    role="button"
-    aria-label={`Ver fotos e detalhes de ${produto.nome}`}
->
-    <div class="card-img-wrap">
-        {
-            capaImg && (
-                <img
-                    src={capaImg}
-                    alt={produto.nome}
-                    class="card-img"
-                    loading="lazy"
-                    data-img
-                />
-            )
-        }
-        <div class="card-img-fallback" aria-hidden="true">{catIcone}</div>
+<article class="card" aria-labelledby={idTitulo}>
+    <button
+        type="button"
+        class="card-main"
+        data-open-product={produto.id}
+        aria-label={`Ver fotos e detalhes de ${produto.nome}`}
+    >
+        <span class="card-img-wrap">
+            <img
+                src={caminhoImagem(capa)}
+                alt={`Foto de ${produto.nome}`}
+                class="card-img"
+                loading={prioridade ? "eager" : "lazy"}
+                fetchpriority={prioridade ? "high" : "auto"}
+                decoding="async"
+            />
 
-        {
-            temVarios && (
-                <div
-                    class="card-foto-count"
-                    aria-label={`${imagensResolvidas.length} fotos`}
-                >
-                    <svg
-                        width="13"
-                        height="13"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                        aria-hidden="true"
-                    >
-                        <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
-                    </svg>
-                    {imagensResolvidas.length}
-                </div>
-            )
-        }
-
-        <div class="badges">
             {
-                produto.sob_medida && (
-                    <span class="badge badge-sob-medida">Sob Medida</span>
+                temVariasFotos && (
+                    <span
+                        class="card-foto-count"
+                        aria-label={`${produto.imagens.length} fotos disponíveis`}
+                    >
+                        <span aria-hidden="true">▧</span>
+                        {produto.imagens.length}
+                    </span>
                 )
             }
-        </div>
-    </div>
 
-    <div class="card-body">
-        <h3 class="card-name">{produto.nome}</h3>
+            {
+                produto.sobMedida && (
+                    <span class="badge badge-sob-medida">Sob medida</span>
+                )
+            }
+        </span>
 
-        {/* Nova seção: Exibe tamanho ou quantidade de peças se houver */}
-        {infoResumida && <p class="card-info-resumida">{infoResumida}</p>}
+        <span class="card-content">
+            <span class="card-cat">{categoria.nome}</span>
+            <span class="card-name" id={idTitulo}>{produto.nome}</span>
+            {produto.descricao && <span class="card-desc">{produto.descricao}</span>}
+            {resumo && <span class="card-summary">{resumo}</span>}
+        </span>
+    </button>
 
-        <div class="card-footer">
-            <span class="card-price">{preco}</span>
-            <button
-                class="btn-order"
-                data-wpp={wpp}
-                aria-label={`Encomendar ${produto.nome} via WhatsApp`}
-            >
-                Encomendar
-            </button>
-        </div>
-    </div>
+    <footer class="card-footer">
+        <span class="card-price">{precoExibicao(produto)}</span>
+        {
+            linkWhatsApp ? (
+                <a
+                    class="btn-order"
+                    href={linkWhatsApp}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Encomendar ${produto.nome} pelo WhatsApp`}
+                >
+                    Encomendar
+                </a>
+            ) : (
+                <button
+                    type="button"
+                    class="btn-order"
+                    data-open-product={produto.id}
+                    aria-label={`Ver opções de ${produto.nome}`}
+                >
+                    Ver opções
+                </button>
+            )
+        }
+    </footer>
 </article>

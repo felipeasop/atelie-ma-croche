@@ -1,333 +1,288 @@
-/* =========================================
-   modal.css - Estilos do Modal
-   ========================================= */
-
-/* ── Elemento <dialog> ─────────────────── */
-#modal {
-    border: none;
+.modal {
+    width: min(920px, calc(100vw - 2rem));
+    max-width: none;
+    max-height: min(760px, calc(100dvh - 2rem));
     padding: 0;
-    border-radius: var(--radius);
-    max-width: min(800px, 95vw);
-    width: 100%;
-    box-shadow: var(--shadow-modal);
-    background: var(--branco);
-    position: fixed;
-    inset: 0;
-    margin: auto;
-    /*
-        overflow: hidden aqui é correto — o scroll interno
-        fica em .modal-info. Sem isso o border-radius some
-        nos cantos da imagem.
-    */
     overflow: hidden;
-    /*
-        max-height limita o modal à viewport.
-        Usa 90dvh (dynamic viewport height) para mobile
-        com fallback para 90vh em browsers mais antigos.
-    */
-    max-height: 90vh;
-    max-height: 90dvh;
+    border: 0;
+    border-radius: var(--radius-xl);
+    background: var(--surface-raised);
+    color: var(--text);
+    box-shadow: var(--shadow-modal);
 }
 
-#modal::backdrop {
-    background: rgba(46, 36, 32, 0.6);
+.modal::backdrop {
+    background: rgba(35, 29, 26, 0.68);
     backdrop-filter: blur(6px);
 }
 
-/* ── Layout lado a lado (desktop) ───────── */
 .modal-layout {
     display: grid;
-    grid-template-columns: 1fr 320px;
-    /*
-        A altura do layout = altura do modal.
-        Como #modal tem max-height, o layout cresce até
-        esse limite e não mais — eliminando o overflow.
-    */
-    height: 100%;
-    /*
-        min/max para garantir que em telas grandes o modal
-        não fique achatado, e em telas menores não estoure.
-    */
-    min-height: 380px;
-    max-height: 90vh;
-    max-height: 90dvh;
+    min-height: min(620px, calc(100dvh - 2rem));
+    grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
 }
 
-/* ── Botão fechar ───────────────────────── */
 .modal-close {
     position: absolute;
-    top: 0.75rem;
-    right: 0.75rem;
-    z-index: 20;
-    width: 44px;
-    height: 44px;
+    z-index: 5;
+    top: 0.85rem;
+    right: 0.85rem;
+    display: grid;
+    width: 48px;
+    height: 48px;
+    place-items: center;
+    border: 1px solid rgba(65, 52, 45, 0.12);
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.95);
-    color: var(--texto-suave);
-    font-size: 1.1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: var(--shadow-md);
+    background: rgba(255, 255, 255, 0.94);
+    color: #3f342e;
+    box-shadow: var(--shadow-sm);
+    font-size: 1.65rem;
+    line-height: 1;
     transition:
-        background var(--transition),
-        color var(--transition),
-        transform var(--transition);
-    border: none;
-    cursor: pointer;
+        background var(--transition-fast),
+        transform var(--transition-fast);
 }
 
 .modal-close:hover {
-    background: var(--rosa);
-    color: var(--rosa-escuro);
-    transform: scale(1.08);
+    background: var(--color-accent-soft);
+    transform: scale(1.05);
 }
 
-/* ── Coluna de informações ──────────────── */
+.modal-close:focus-visible,
+.btn-whatsapp:focus-visible,
+.modal-variant-option:has(input:focus-visible) {
+    outline: 3px solid var(--focus-ring);
+    outline-offset: 2px;
+}
+
+.modal-gallery {
+    min-width: 0;
+    background: var(--surface-soft);
+}
+
 .modal-info {
-    padding: 1.5rem 1.4rem 1.25rem;
     display: flex;
+    min-width: 0;
+    max-height: min(760px, calc(100dvh - 2rem));
     flex-direction: column;
-    gap: 0.7rem;
-    position: relative;
-    /*
-        overflow-y: auto na coluna de texto — quando o conteúdo
-        (muitos itens, avisos) for maior que a coluna, o scroll
-        aparece só aqui, não no modal inteiro.
-        O footer (preço + botão) usa margin-top: auto para ficar
-        sempre visível na parte inferior da coluna.
-    */
+    gap: 0.75rem;
     overflow-y: auto;
-    height: 100%;
-    /* Scrollbar discreta */
+    padding: 2rem 1.5rem 1.5rem;
+    scrollbar-color: var(--border) transparent;
     scrollbar-width: thin;
-    scrollbar-color: var(--areia-escura) transparent;
 }
 
-.modal-info::-webkit-scrollbar {
-    width: 4px;
-}
-.modal-info::-webkit-scrollbar-track {
-    background: transparent;
-}
-.modal-info::-webkit-scrollbar-thumb {
-    background: var(--areia-escura);
-    border-radius: 4px;
+.modal-category {
+    color: var(--color-primary);
+    font-size: 0.76rem;
+    font-weight: 850;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
 }
 
-/* ── Textos ─────────────────────────────── */
 .modal-name {
+    padding-right: 2.5rem;
+    color: var(--text-strong);
     font-family: var(--font-display);
-    font-size: clamp(1.5rem, 2.5vw, 1.9rem);
-    font-weight: 600;
-    line-height: 1.2;
-    padding-right: 2.8rem;
-    color: var(--texto);
+    font-size: clamp(1.65rem, 3vw, 2.15rem);
+    font-weight: 750;
+    line-height: 1.12;
 }
 
-.modal-desc {
-    font-size: var(--font-size-base);
-    color: var(--texto-suave);
-    line-height: 1.65;
+.modal-description {
+    color: var(--text-muted);
+    line-height: 1.6;
 }
 
-/* ── Bloco itens / tamanho ──────────────── */
-.modal-info-extra {
-    background: var(--areia);
-    border-radius: var(--radius-sm);
-    padding: 0.8rem 1rem;
-    font-size: 1rem;
-    flex-shrink: 0;
+.modal-detail {
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--surface-soft);
 }
 
-.modal-info-extra h4 {
+.modal-detail h3,
+.modal-detail legend {
+    color: var(--text-strong);
     font-family: var(--font-display);
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--texto);
-    margin-bottom: 0.4rem;
+    font-size: 1.02rem;
+    font-weight: 750;
 }
 
-.modal-info-extra ul {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
+.modal-detail ul {
+    display: grid;
     gap: 0.25rem;
+    margin-top: 0.35rem;
+    list-style: none;
+    color: var(--text-muted);
 }
 
-.modal-info-extra ul li {
-    color: var(--texto-suave);
-    line-height: 1.5;
+.modal-detail li::before {
+    margin-right: 0.45rem;
+    color: var(--color-primary);
+    content: "•";
 }
 
-.modal-info-extra ul li::before {
-    content: "· ";
-    color: var(--azul-medio);
-    font-weight: 700;
+.modal-variants {
+    min-width: 0;
 }
 
-.modal-info-extra p {
-    color: var(--texto-suave);
+.modal-variants legend {
+    padding: 0 0.2rem;
 }
 
-/* ── Nota personalização ────────────────── */
-.modal-custom-note {
-    font-size: 1rem;
-    color: var(--sage-escuro);
-    background: rgba(168, 191, 170, 0.18);
-    border-left: 4px solid var(--sage-escuro);
-    padding: 0.6rem 0.9rem;
-    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-    line-height: 1.5;
-    flex-shrink: 0;
+.modal-variants-list {
+    display: grid;
+    gap: 0.55rem;
+    margin-top: 0.5rem;
 }
 
-/* ── Aviso sob medida ───────────────────── */
-.modal-warning,
-.modal-medidas-aviso {
-    font-size: 1rem;
-    color: var(--marrom);
-    background-color: var(--areia);
-    border: 1px solid var(--areia-escura);
-    border-left: 4px solid var(--rosa-escuro);
-    padding: 0.85rem;
-    border-radius: var(--radius-sm);
-    line-height: 1.5;
-    flex-shrink: 0;
-}
-
-/* ── Rodapé: preço + botão ──────────────── */
-.modal-footer {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
+.modal-variant-option {
+    display: grid;
+    min-height: 56px;
+    align-items: center;
     gap: 0.6rem;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    padding: 0.7rem 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--surface-raised);
+    cursor: pointer;
+    transition:
+        background var(--transition-fast),
+        border-color var(--transition-fast);
+}
+
+.modal-variant-option:has(input:checked) {
+    border-color: var(--color-primary);
+    background: var(--color-primary-faint);
+}
+
+.modal-variant-option input {
+    accent-color: var(--color-primary-strong);
+}
+
+.modal-variant-option span {
+    min-width: 0;
+    color: var(--text);
+}
+
+.modal-variant-option strong {
+    color: var(--text-strong);
+    white-space: nowrap;
+}
+
+.modal-custom-note,
+.modal-warning {
+    padding: 0.75rem 0.9rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.94rem;
+    line-height: 1.5;
+}
+
+.modal-custom-note {
+    border-left: 4px solid var(--color-success);
+    background: var(--color-success-soft);
+    color: var(--text);
+}
+
+.modal-warning {
+    border-left: 4px solid var(--color-accent);
+    background: var(--color-accent-soft);
+    color: var(--text);
+}
+
+.modal-footer {
+    display: grid;
+    gap: 0.8rem;
     margin-top: auto;
-    padding-top: 0.85rem;
-    border-top: 1px solid var(--areia-escura);
-    flex-shrink: 0;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
 }
 
 .modal-price {
+    color: var(--color-primary-strong);
     font-family: var(--font-display);
-    font-size: 2rem;
-    font-weight: 600;
-    color: var(--azul-deep);
+    font-size: 1.9rem;
+    font-weight: 800;
     line-height: 1;
 }
 
-/* ── Botão WhatsApp ─────────────────────── */
-.modal-info .btn-wpp {
-    background: #25d366;
-    color: #ffffff;
-    box-shadow: 0 4px 14px rgba(37, 211, 102, 0.35);
-    font-size: 1.1rem; /* Aumentei um pouco a fonte */
-    font-weight: 700;
-
-    /* Padding maior para o botão ficar robusto */
-    padding: 1rem 2rem;
-
-    min-height: 56px;
-    border-radius: var(--radius-pill);
+.btn-whatsapp {
     display: inline-flex;
+    min-height: 54px;
     align-items: center;
     justify-content: center;
-    gap: 0.75rem; /* Espaço entre o ícone e o texto */
-
+    gap: 0.65rem;
+    padding: 0.8rem 1.1rem;
+    border-radius: var(--radius-pill);
+    background: #218c4e;
+    color: #fff;
+    font-weight: 800;
+    box-shadow: 0 4px 16px rgba(33, 140, 78, 0.25);
     transition:
-        background var(--transition),
-        transform var(--transition),
-        box-shadow var(--transition);
-    border: none;
-    cursor: pointer;
-    width: 100%; /* Ocupa a largura total para ficar confortável */
+        background var(--transition-fast),
+        transform var(--transition-fast);
 }
 
-/* Estilo do ícone dentro do botão */
-.modal-info .btn-wpp .wpp-icon {
-    width: 22px;
-    height: 22px;
-    object-fit: contain;
+.btn-whatsapp:hover {
+    background: #18733e;
+    transform: translateY(-1px);
 }
 
-.modal-info .btn-wpp:hover {
-    background: #1da851;
-    transform: scale(1.02);
-    box-shadow: 0 6px 18px rgba(37, 211, 102, 0.45);
+[hidden] {
+    display: none !important;
 }
 
-/* =========================================
-   Mobile — bottom sheet
-   ========================================= */
-@media (max-width: 640px) {
-    #modal {
-        position: fixed;
-        inset: auto 0 0 0;
+@media (max-width: 720px) {
+    .modal {
+        inset: auto 0 0;
+        width: 100%;
+        max-height: 94dvh;
         margin: 0;
-        max-width: 100%;
-        /*
-            No mobile o modal cresce conforme o conteúdo
-            e para em 92% da tela. overflow-y: auto aqui
-            porque o .modal-layout não tem altura fixa.
-        */
-        max-height: 92vh;
-        max-height: 92dvh;
-        height: auto;
-        border-radius: 20px 20px 0 0;
         overflow-y: auto;
-        overflow-x: hidden;
+        border-radius: var(--radius-xl) var(--radius-xl) 0 0;
     }
 
     .modal-layout {
+        min-height: 0;
         grid-template-columns: 1fr;
-        height: auto;
-        min-height: unset;
-        max-height: unset;
     }
 
-    /* Pill de arraste no topo do bottom sheet */
-    .modal-layout::before {
-        content: "";
-        display: block;
-        width: 40px;
-        height: 4px;
-        background: var(--areia-escura);
-        border-radius: 2px;
-        margin: 0.75rem auto 0;
-        grid-column: 1;
+    .modal-gallery {
+        aspect-ratio: 4 / 3;
     }
 
     .modal-info {
-        padding: 1.25rem 1rem 1.5rem;
-        height: auto;
-        /*
-            No mobile o scroll está no #modal — aqui não precisa.
-        */
-        overflow-y: visible;
-        padding-bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
+        max-height: none;
+        overflow: visible;
+        padding: 1.25rem 1rem calc(1.25rem + env(safe-area-inset-bottom));
+    }
+
+    .modal-category {
+        font-size: 0.8rem;
     }
 
     .modal-name {
-        font-size: 1.5rem;
-        padding-right: 3rem;
-    }
-
-    .modal-footer {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 0.65rem;
-        margin-top: 0.75rem;
-    }
-
-    .modal-price {
         font-size: 1.75rem;
-        text-align: center;
     }
 
-    .modal-info .btn-wpp {
-        width: 100%;
-        justify-content: center;
-        font-size: 1.05rem;
-        min-height: 56px;
+    .modal-description,
+    .modal-detail,
+    .modal-custom-note,
+    .modal-warning {
+        font-size: 1rem;
+    }
+
+    .modal-variant-option {
+        min-height: 60px;
+        padding: 0.8rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .modal-close,
+    .btn-whatsapp {
+        transition: none;
     }
 }

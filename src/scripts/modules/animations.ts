@@ -1,17 +1,20 @@
-export function animarCards(): void {
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          (entry.target as HTMLElement).classList.add("entering");
-          observer.unobserve(entry.target);
-        }
+export function iniciarAnimacoes(): void {
+  const cards = document.querySelectorAll<HTMLElement>(".card");
+  if (!("IntersectionObserver" in window)) return;
+
+  const observador = new IntersectionObserver(
+    (entradas) => {
+      entradas.forEach((entrada) => {
+        if (!entrada.isIntersecting) return;
+        entrada.target.classList.add("is-visible");
+        observador.unobserve(entrada.target);
       });
     },
-    { threshold: 0.1, rootMargin: "0px 0px -40px 0px" },
+    { rootMargin: "0px 0px -30px", threshold: 0.08 },
   );
 
-  document
-    .querySelectorAll<HTMLElement>(".card")
-    .forEach((card) => observer.observe(card));
+  cards.forEach((card) => {
+    card.classList.add("is-reveal-pending");
+    observador.observe(card);
+  });
 }

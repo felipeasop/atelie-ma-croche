@@ -1,182 +1,126 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import ProductCard from "../components/ProductCard/ProductCard.astro";
-import Modal from "../components/Modal/Modal.astro";
 import BannerPersonalizado from "../components/Banner/BannerPersonalizado.astro";
-import { PRODUTOS, CONFIG } from "../data/produtos";
+import Modal from "../components/Modal/Modal.astro";
+import ProductCard from "../components/ProductCard/ProductCard.astro";
+import Layout from "../layouts/Layout.astro";
+import { PRODUTOS } from "../catalogo/carregar.ts";
 import {
-    LABELS,
-    ICONES,
+    CATEGORIAS_INFO,
     CATEGORIAS_ORDEM,
-    type Categoria,
-} from "../data/types";
+} from "../catalogo/tipos.ts";
+import { caminhoPublico } from "../catalogo/produto.ts";
+import { SITE_CONFIG } from "../config/site.ts";
 
-// ── Varredura automática de imagens por pasta ────────────────────
-const EXTENSOES = /\.(jpe?g|png|webp|gif|avif)$/i;
+const categorias = CATEGORIAS_ORDEM.map((id) => ({
+    id,
+    ...CATEGORIAS_INFO[id],
+    produtos: PRODUTOS.filter((produto) => produto.categoria === id),
+})).filter((categoria) => categoria.produtos.length > 0);
 
-function extrairCaminhos(glob: Record<string, unknown>): string[] {
-    return Object.keys(glob)
-        .filter((p) => EXTENSOES.test(p))
-        .sort()
-        .map((p) => p.replace("../../public/imagens/", ""));
-}
-
-const imagensPorCategoria: Record<Categoria, string[]> = {
-    cozinha: [],
-    mesa: [],
-    banheiro: [],
-    decoracao: [],
-    roupa: [],
-    acessorio: [],
-    chaveiro: [],
-};
-
-// Se precisar usar import.meta.glob dinamicamente de forma segura:
-try {
-    imagensPorCategoria.cozinha = extrairCaminhos(
-        import.meta.glob("../../public/imagens/cozinha/*", { eager: true }),
-    );
-    imagensPorCategoria.mesa = extrairCaminhos(
-        import.meta.glob("../../public/imagens/mesa/*", { eager: true }),
-    );
-    imagensPorCategoria.banheiro = extrairCaminhos(
-        import.meta.glob("../../public/imagens/banheiro/*", { eager: true }),
-    );
-    imagensPorCategoria.decoracao = extrairCaminhos(
-        import.meta.glob("../../public/imagens/decoracao/*", { eager: true }),
-    );
-    imagensPorCategoria.roupa = extrairCaminhos(
-        import.meta.glob("../../public/imagens/roupa/*", { eager: true }),
-    );
-    imagensPorCategoria.acessorio = extrairCaminhos(
-        import.meta.glob("../../public/imagens/acessorio/*", { eager: true }),
-    );
-    imagensPorCategoria.chaveiro = extrairCaminhos(
-        import.meta.glob("../../public/imagens/chaveiro/*", { eager: true }),
-    );
-} catch (e) {
-    // Caso de uso alternativo quando não existirem ainda as pastas físicas
-}
-
-function resolveImagens(produto: (typeof PRODUTOS)[number]): string[] {
-    if (produto.imagens && produto.imagens.length > 0) return produto.imagens;
-    return imagensPorCategoria[produto.categoria] ?? [];
-}
-
-// ── Agrupamento por categoria ────────────────────────────────────
-const porCategoria = CATEGORIAS_ORDEM.map((cat) => ({
-    cat,
-    label: LABELS[cat],
-    icone: ICONES[cat],
-    produtos: PRODUTOS.filter((p) => p.categoria === cat),
-})).filter((g) => g.produtos.length > 0);
-
-// Serializa com imagens resolvidas para o script cliente
-const produtosJSON = JSON.stringify(
-    PRODUTOS.map((p) => ({ ...p, imagens: resolveImagens(p) })),
-);
-const configJSON = JSON.stringify({ whatsapp: CONFIG.whatsapp });
+const dadosCliente = JSON.stringify({
+    produtos: PRODUTOS,
+    whatsapp: SITE_CONFIG.whatsapp,
+}).replaceAll("<", "\\u003c");
 ---
 
 <Layout>
-    <!-- HEADER -->
-    <header class="site-header">
+    <header class="hero">
         <img
-            src="/atelie-ma-croche/imagens/logo.png"
-            alt="Logo Ateliê Ma Crochê"
-            class="header-logo"
+            src={caminhoPublico("imagens/logo.png")}
+            alt=""
+            class="hero-logo"
+            width="112"
+            height="112"
         />
-        <h1 class="header-title">Ateliê <em>Ma</em> Crochê</h1>
-        <p class="header-sub">artesanato feito à mão com carinho</p>
+        <p class="hero-eyebrow">Catálogo artesanal</p>
+        <h1>Ateliê <em>Ma</em> Crochê</h1>
+        <p class="hero-description">
+            Peças feitas à mão, com cores personalizáveis e encomendas
+            combinadas diretamente pelo WhatsApp.
+        </p>
     </header>
 
-    <!-- ÂNCORAS DE NAVEGAÇÃO RÁPIDA (sticky) -->
-    <nav class="cat-anchors" aria-label="Ir para categoria">
-        <div class="cat-anchors-inner">
+    <nav class="category-nav" aria-label="Categorias do catálogo">
+        <div class="category-nav-inner">
             {
-                porCategoria.map(({ cat, label, icone }) => (
-                    <a href={`#cat-${cat}`} class="btn-anchor">
-                        <span aria-hidden="true">{icone}</span>
-                        {label}
+                categorias.map((categoria) => (
+                    <a
+                        href={`#categoria-${categoria.id}`}
+                        class="category-link"
+                        data-category-link
+                    >
+                        <span aria-hidden="true">{categoria.icone}</span>
+                        {categoria.nome}
                     </a>
                 ))
             }
         </div>
     </nav>
 
-    <!-- CATÁLOGO POR SEÇÃO -->
-    <div class="catalog-wrapper">
-        {
-            porCategoria.map(({ cat, label, icone, produtos }) => (
-                <section
-                    class="cat-section"
-                    id={`cat-${cat}`}
-                    aria-labelledby={`titulo-${cat}`}
-                >
-                    <div class="cat-section-header">
-                        <div class="cat-section-icon" aria-hidden="true">
-                            {icone}
-                        </div>
-                        <div>
-                            <h2 class="cat-section-title" id={`titulo-${cat}`}>
-                                {label}
-                            </h2>
-                            <p class="cat-section-count">
-                                {produtos.length === 1
-                                    ? "1 modelo"
-                                    : `${produtos.length} modelos`}
-                            </p>
-                        </div>
-                    </div>
+    <main id="conteudo-principal">
+        <div class="catalog">
+            {
+                categorias.map((categoria, categoriaIndice) => (
+                    <section
+                        class="category-section"
+                        id={`categoria-${categoria.id}`}
+                        aria-labelledby={`titulo-${categoria.id}`}
+                        data-category-section
+                    >
+                        <header class="category-header">
+                            <span class="category-icon" aria-hidden="true">
+                                {categoria.icone}
+                            </span>
+                            <div>
+                                <h2 id={`titulo-${categoria.id}`}>
+                                    {categoria.nome}
+                                </h2>
+                                <p>
+                                    {categoria.produtos.length === 1
+                                        ? "1 modelo disponível"
+                                        : `${categoria.produtos.length} modelos disponíveis`}
+                                </p>
+                            </div>
+                        </header>
 
-                    <div class="product-grid">
-                        {produtos.map((p) => (
-                            <ProductCard
-                                produto={p}
-                                imagensResolvidas={resolveImagens(p)}
-                            />
-                        ))}
-                    </div>
-                </section>
-            ))
-        }
-    </div>
+                        <div class="product-grid">
+                            {categoria.produtos.map((produto, produtoIndice) => (
+                                <ProductCard
+                                    produto={produto}
+                                    prioridade={categoriaIndice === 0 && produtoIndice === 0}
+                                />
+                            ))}
+                        </div>
+                    </section>
+                ))
+            }
+        </div>
 
-    <BannerPersonalizado />
-    <div class="divider" aria-hidden="true">· · ✦ · ·</div>
+        <BannerPersonalizado />
+    </main>
 
     <footer class="site-footer">
-        <span class="footer-name">{CONFIG.nomeAtelie}</span>
-        <span>Todas as peças são feitas à mão com muito carinho 🧶</span>
-        {
-            CONFIG.instagram && (
-                <p class="footer-ig" style="margin-top:.5rem">
-                    Instagram:{" "}
-                    <a
-                        href={`https://instagram.com/${CONFIG.instagram.replace("@", "")}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        {CONFIG.instagram}
-                    </a>
-                </p>
-            )
-        }
+        <p class="footer-name">{SITE_CONFIG.nome}</p>
+        <p>Todas as peças são feitas à mão com muito carinho.</p>
+        <a
+            href={`https://instagram.com/${SITE_CONFIG.instagram}`}
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            @{SITE_CONFIG.instagram}
+        </a>
     </footer>
 
     <Modal />
 
-    <div
-        id="app-data"
-        data-produtos={produtosJSON}
-        data-config={configJSON}
-        hidden
-        aria-hidden="true"
-    >
-    </div>
+    <script
+        id="catalog-data"
+        type="application/json"
+        set:html={dadosCliente}
+    ></script>
 
     <script>
-        import { initCatalog } from "../scripts/catalog";
-        initCatalog();
+        import { iniciarCatalogo } from "../scripts/catalog.ts";
+        iniciarCatalogo();
     </script>
 </Layout>

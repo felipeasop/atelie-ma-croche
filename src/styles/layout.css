@@ -1,364 +1,296 @@
-/* =========================================
-   layout.css — Estrutura global da página
-   ========================================= */
-
-/* Fundo decorativo fixo */
 body::before {
-    content: "";
     position: fixed;
+    z-index: -1;
     inset: 0;
-    pointer-events: none;
-    z-index: 0;
     background:
-        radial-gradient(
-            ellipse at 15% 15%,
-            rgba(184, 216, 232, 0.2) 0%,
-            transparent 55%
-        ),
-        radial-gradient(
-            ellipse at 85% 85%,
-            rgba(212, 165, 160, 0.14) 0%,
-            transparent 55%
-        );
+        radial-gradient(circle at 10% 5%, rgba(119, 176, 200, 0.18), transparent 32rem),
+        radial-gradient(circle at 92% 90%, rgba(204, 148, 139, 0.13), transparent 28rem);
+    content: "";
+    pointer-events: none;
 }
 
-body > * {
-    position: relative;
-    z-index: 1;
+.skip-link {
+    position: fixed;
+    z-index: 1000;
+    top: 0.5rem;
+    left: 0.5rem;
+    padding: 0.65rem 1rem;
+    border-radius: var(--radius-sm);
+    background: var(--text-strong);
+    color: var(--surface-raised);
+    transform: translateY(-150%);
 }
 
-.container {
-    max-width: var(--max-width);
-    margin: 0 auto;
-    padding: 0 1rem;
+.skip-link:focus {
+    transform: translateY(0);
 }
 
-/* =========================================
-   Botão WhatsApp — base compartilhada
-   (usado no banner e no modal)
-   ========================================= */
-.btn-wpp {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.55rem;
-    font-weight: 700;
-    font-size: var(--font-size-sm);
-    padding: 0.7rem 1.4rem;
-    min-height: var(--touch-min);
-    border-radius: var(--radius-pill);
-    transition:
-        background var(--transition),
-        transform var(--transition),
-        box-shadow var(--transition);
-    text-decoration: none;
-    white-space: nowrap;
-}
-
-.btn-wpp:hover {
-    transform: scale(1.03);
-}
-
-/* =========================================
-   Header
-   ========================================= */
-.site-header {
-    text-align: center;
-    padding: 3rem 1rem 2rem;
+.hero {
     display: flex;
+    max-width: 760px;
+    align-items: center;
     flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.header-logo {
-    width: 80px;
-    height: 80px;
-    object-fit: contain;
-    border-radius: 50%;
-    margin-bottom: 0.25rem;
-}
-
-.header-title {
-    font-family: var(--font-display);
-    font-size: clamp(2rem, 6vw, 3.2rem);
-    font-weight: 300;
-    letter-spacing: 0.01em;
-    color: var(--texto);
-    line-height: 1.1;
-}
-
-.header-title em {
-    font-style: italic;
-    color: var(--azul-deep);
-}
-
-.header-sub {
-    font-size: var(--font-size-sm);
-    color: var(--texto-suave);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    font-weight: 400;
-}
-
-/* =========================================
-   Navegação de âncoras (sticky)
-   ========================================= */
-.cat-anchors {
-    position: sticky;
-    top: 0;
-    z-index: 50;
-    background: rgba(250, 246, 240, 0.92);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--areia-escura);
-    padding: 0.6rem 0;
-}
-
-[data-theme="dark"] .cat-anchors {
-    background: rgba(44, 39, 34, 0.92);
-}
-
-.cat-anchors-inner {
-    max-width: var(--max-width);
     margin: 0 auto;
-    padding: 0 1rem;
+    padding: clamp(2rem, 7vw, 4.5rem) 1rem clamp(1.75rem, 5vw, 3rem);
+    text-align: center;
+}
+
+.hero-logo {
+    width: 96px;
+    height: 96px;
+    margin-bottom: 0.8rem;
+    border: 3px solid rgba(255, 255, 255, 0.72);
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: var(--shadow-card);
+}
+
+.hero-eyebrow {
+    color: var(--color-primary-strong);
+    font-size: 0.76rem;
+    font-weight: 850;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.hero h1 {
+    margin-top: 0.2rem;
+    color: var(--text-strong);
+    font-family: var(--font-display);
+    font-size: clamp(2.4rem, 8vw, 4rem);
+    font-weight: 500;
+    letter-spacing: -0.035em;
+    line-height: 1;
+}
+
+.hero h1 em {
+    color: var(--color-primary-strong);
+    font-weight: 500;
+}
+
+.hero-description {
+    max-width: 620px;
+    margin-top: 0.85rem;
+    color: var(--text-muted);
+    font-size: clamp(1rem, 2.5vw, 1.12rem);
+}
+
+.category-nav {
+    position: sticky;
+    z-index: 20;
+    top: 0;
+    border-block: 1px solid var(--border);
+    background: var(--surface-translucent);
+    backdrop-filter: blur(12px);
+}
+
+.category-nav-inner {
     display: flex;
+    max-width: var(--content-width);
     gap: 0.4rem;
+    margin: 0 auto;
+    padding: 0.55rem 1rem;
     overflow-x: auto;
     scrollbar-width: none;
-    -ms-overflow-style: none;
 }
 
-.cat-anchors-inner::-webkit-scrollbar {
+.category-nav-inner::-webkit-scrollbar {
     display: none;
 }
 
-.btn-anchor {
+.category-link {
     display: inline-flex;
+    min-height: 48px;
+    flex: 0 0 auto;
     align-items: center;
-    gap: 0.35rem;
-    padding: 0.45rem 0.9rem;
+    gap: 0.4rem;
+    padding: 0.5rem 0.85rem;
     border-radius: var(--radius-pill);
-    font-size: var(--font-size-sm);
-    font-weight: 600;
-    color: var(--texto-suave);
+    color: var(--text-muted);
+    font-size: 0.92rem;
+    font-weight: 750;
     white-space: nowrap;
     transition:
-        background var(--transition),
-        color var(--transition);
-    flex-shrink: 0;
+        background var(--transition-fast),
+        color var(--transition-fast);
 }
 
-.btn-anchor:hover,
-.btn-anchor.active {
-    background: var(--azul);
-    color: var(--azul-darker);
+.category-link:hover,
+.category-link.is-active {
+    background: var(--color-primary-soft);
+    color: var(--text-strong);
 }
 
-/* =========================================
-   Wrapper do catálogo
-   ========================================= */
-.catalog-wrapper {
-    max-width: var(--max-width);
-    margin: 0 auto;
-    padding: 0 1rem 3rem;
+.catalog {
     display: flex;
+    max-width: var(--content-width);
     flex-direction: column;
-    gap: 3.5rem;
+    gap: clamp(3rem, 7vw, 5rem);
+    margin: 0 auto;
+    padding: clamp(2.5rem, 6vw, 4.5rem) 1rem 4rem;
 }
 
-/* =========================================
-   Seção de categoria
-   ========================================= */
-.cat-section {
-    scroll-margin-top: 60px; /* compensa o nav sticky */
+.category-section {
+    scroll-margin-top: 5.25rem;
 }
 
-.cat-section-header {
+.category-header {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-    padding-bottom: 0.85rem;
-    border-bottom: 2px solid var(--areia-escura);
+    gap: 0.9rem;
+    margin-bottom: 1.4rem;
+    padding-bottom: 0.9rem;
+    border-bottom: 1px solid var(--border);
 }
 
-.cat-section-icon {
-    font-size: 2rem;
-    line-height: 1;
-    width: 52px;
-    height: 52px;
-    background: var(--areia);
-    border-radius: var(--radius);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
+.category-icon {
+    display: grid;
+    width: 50px;
+    height: 50px;
+    flex: 0 0 auto;
+    place-items: center;
+    border-radius: var(--radius-md);
+    background: var(--surface-soft);
+    font-size: 1.7rem;
 }
 
-.cat-section-title {
+.category-header h2 {
+    color: var(--text-strong);
     font-family: var(--font-display);
-    font-size: clamp(1.5rem, 3.5vw, 2rem);
-    font-weight: 400;
-    font-style: italic;
-    color: var(--texto);
-    line-height: 1.2;
+    font-size: clamp(1.65rem, 4vw, 2.15rem);
+    font-weight: 650;
+    line-height: 1.1;
 }
 
-.cat-section-count {
-    font-size: var(--font-size-sm);
-    color: var(--texto-suave);
-    margin-top: 0.1rem;
+.category-header p {
+    margin-top: 0.15rem;
+    color: var(--text-muted);
+    font-size: 0.9rem;
 }
 
-/* =========================================
-   Grid de produtos
-   ========================================= */
 .product-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 1.5rem;
-    align-items: stretch;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 245px), 1fr));
+    gap: 1.35rem;
 }
 
-/* =========================================
-   Divider decorativo
-   ========================================= */
-.divider {
-    text-align: center;
-    color: var(--azul-medio);
-    font-size: 1.2rem;
-    letter-spacing: 0.4em;
-    padding: 2rem 0 1.5rem;
-    opacity: 0.6;
+.card.is-reveal-pending {
+    opacity: 0;
+    transform: translateY(16px);
 }
 
-/* =========================================
-   Footer
-   ========================================= */
+.card.is-reveal-pending.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition:
+        opacity 420ms ease,
+        transform 420ms ease,
+        border-color var(--transition-fast),
+        box-shadow var(--transition-fast);
+}
+
 .site-footer {
+    display: grid;
+    justify-items: center;
+    gap: 0.2rem;
+    padding: 2.25rem 1rem 5rem;
+    border-top: 1px solid var(--border);
+    color: var(--text-muted);
     text-align: center;
-    padding: 2rem 1rem 2.5rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.35rem;
-    font-size: var(--font-size-sm);
-    color: var(--texto-suave);
-    border-top: 1px solid var(--areia-escura);
 }
 
 .footer-name {
+    color: var(--text-strong);
     font-family: var(--font-display);
-    font-size: 1.15rem;
-    font-weight: 600;
-    color: var(--texto);
+    font-size: 1.2rem;
+    font-weight: 750;
 }
 
-.footer-ig a {
-    color: var(--azul-deep);
-    font-weight: 600;
+.site-footer a {
+    margin-top: 0.35rem;
+    color: var(--color-primary-strong);
+    font-weight: 800;
 }
 
-.footer-ig a:hover {
+.site-footer a:hover {
     text-decoration: underline;
 }
 
-/* =========================================
-   Botão de tema (canto fixo)
-   ========================================= */
 .theme-toggle {
     position: fixed;
-    bottom: 1.25rem;
-    right: 1.25rem;
-    z-index: 100;
-    width: 44px;
-    height: 44px;
+    z-index: 30;
+    right: 1rem;
+    bottom: 1rem;
+    display: grid;
+    width: 52px;
+    height: 52px;
+    place-items: center;
+    border: 1px solid var(--border);
     border-radius: 50%;
-    background: var(--branco);
-    box-shadow: var(--shadow-md);
+    background: var(--surface-raised);
+    box-shadow: var(--shadow-card);
     font-size: 1.2rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid var(--areia-escura);
-    transition:
-        background var(--transition),
-        transform var(--transition);
+    transition: transform var(--transition-fast);
 }
 
 .theme-toggle:hover {
-    transform: scale(1.1);
-    background: var(--areia);
+    transform: scale(1.06);
 }
 
-/* =========================================
-   Responsivo
-   ========================================= */
-@media (max-width: 640px) {
-    .site-header {
-        padding: 2rem 1rem 1.5rem;
+@media (max-width: 520px) {
+    .hero-logo {
+        width: 82px;
+        height: 82px;
     }
 
-    .header-logo {
-        width: 64px;
-        height: 64px;
+    .category-nav-inner {
+        padding-inline: 0.75rem;
     }
 
-    .header-sub {
-        /* Ligeiramente maior em mobile para legibilidade 60+ */
-        font-size: 0.9rem;
-        letter-spacing: 0.04em;
+    .category-link {
+        min-height: 50px;
+        font-size: 0.98rem;
     }
 
-    .cat-anchors {
-        padding: 0.5rem 0;
-    }
-
-    .btn-anchor {
-        /*
-            48px de altura mínima: área de toque WCAG para dedos
-            menos precisos. Fonte um pouco maior também.
-        */
-        min-height: 48px;
-        font-size: 1rem;
-        padding: 0.5rem 1rem;
-    }
-
-    .catalog-wrapper {
-        gap: 2.5rem;
-        padding: 0 0.75rem 2rem;
-    }
-
-    .cat-section-header {
-        gap: 0.75rem;
-        margin-bottom: 1.1rem;
-    }
-
-    .cat-section-icon {
-        width: 44px;
-        height: 44px;
-        font-size: 1.6rem;
+    .catalog {
+        padding-inline: 0.75rem;
     }
 
     .product-grid {
-        /*
-            2 colunas fixas em mobile: mais previsível que auto-fill
-            com minmax pequeno, e cada card fica com ~160px+ de largura
-            numa tela de 360px — confortável para ver a foto e ler o nome.
-        */
-        grid-template-columns: repeat(2, 1fr);
-        gap: 0.85rem;
+        gap: 1rem;
+    }
+
+    .category-icon {
+        width: 44px;
+        height: 44px;
+        font-size: 1.5rem;
+    }
+}
+
+@media (hover: none) {
+    .theme-toggle:hover {
+        transform: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .card.is-reveal-pending,
+    .card.is-reveal-pending.is-visible {
+        opacity: 1;
+        transform: none;
+        transition: none;
     }
 
     .theme-toggle {
-        /*
-            Move para não sobrepor o botão de encomendar dos cards
-            quando o usuário rola até o final.
-        */
-        bottom: 1rem;
-        right: 0.75rem;
-        width: 42px;
-        height: 42px;
+        transition: none;
+    }
+}
+
+@media print {
+    .category-nav,
+    .theme-toggle,
+    .custom-order,
+    .btn-order {
+        display: none !important;
     }
 }

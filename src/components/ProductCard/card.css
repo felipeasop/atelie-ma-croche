@@ -1,255 +1,231 @@
-/* =========================================
-   card.css - Estilos do ProductCard
-   ========================================= */
-
-/*
-    Os cards usam --card-* em vez de --branco/--texto/--areia.
-    Essas variáveis NÃO são redefinidas no [data-theme="dark"],
-    então os cards ficam sempre brancos com texto escuro,
-    independente do tema da página.
-*/
 .card {
-    background: var(--card-bg);
-    border-radius: var(--radius);
-    overflow: hidden;
-    box-shadow: var(--shadow-md);
-    border: 1px solid var(--card-borda);
-    cursor: pointer;
-    transition:
-        transform var(--transition),
-        box-shadow var(--transition);
-    outline: none;
     display: flex;
-    flex-direction: column;
+    min-width: 0;
     height: 100%;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-lg);
+    background: var(--surface-raised);
+    box-shadow: var(--shadow-card);
+    transition:
+        border-color var(--transition-fast),
+        box-shadow var(--transition-fast),
+        transform var(--transition-fast);
 }
 
-.card:hover,
-.card:focus-visible {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-lg);
+.card:hover {
+    border-color: var(--color-primary-soft);
+    box-shadow: var(--shadow-card-hover);
+    transform: translateY(-4px);
 }
 
-.card:focus-visible {
-    outline: 3px solid var(--azul-deep);
-    outline-offset: 3px;
+.card-main {
+    display: flex;
+    min-width: 0;
+    flex: 1;
+    flex-direction: column;
+    color: inherit;
+    text-align: left;
 }
 
-@keyframes fadeUp {
-    from {
-        opacity: 0;
-        transform: translateY(18px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.card-main:focus-visible,
+.btn-order:focus-visible {
+    outline: 3px solid var(--focus-ring);
+    outline-offset: -3px;
 }
 
-.card.entering {
-    opacity: 0;
-    animation: fadeUp 0.4s ease forwards;
-}
-
-/* --- Imagem --- */
 .card-img-wrap {
     position: relative;
+    display: block;
+    width: 100%;
     aspect-ratio: 4 / 3;
-    /*
-        Fundo da área de imagem: usa areia do tema (pode escurecer
-        no dark mode — é a área de carregamento, não o card em si).
-    */
-    background: var(--areia);
     overflow: hidden;
+    background:
+        radial-gradient(circle at center, rgba(255, 255, 255, 0.85), transparent 68%),
+        var(--surface-soft);
 }
 
 .card-img {
     width: 100%;
     height: 100%;
-    /*
-        object-fit: contain — mostra a peça inteira sem cortar.
-        Produtos artesanais têm formas irregulares; cover cortava
-        partes importantes (ex: borda do tapete, peças do jogo).
-    */
     object-fit: cover;
     object-position: center;
-    transition: transform 0.4s ease;
+    transition: transform var(--transition-slow);
 }
 
 .card:hover .card-img {
-    transform: scale(1.04); /* leve — contain já dá margem visual */
+    transform: scale(1.025);
 }
 
-.card-img-fallback {
+.card-foto-count,
+.badge {
     position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 3.5rem;
-    color: var(--areia-escura);
-    pointer-events: none;
-}
-
-.card-img-wrap.loaded .card-img-fallback {
-    display: none;
+    border-radius: var(--radius-pill);
+    font-size: 0.75rem;
+    font-weight: 800;
+    line-height: 1;
+    box-shadow: var(--shadow-sm);
 }
 
 .card-foto-count {
-    position: absolute;
-    bottom: 0.55rem;
-    right: 0.55rem;
-    background: rgba(0, 0, 0, 0.52);
-    color: #fff;
-    font-size: 0.75rem;
-    font-weight: 700;
-    padding: 0.22rem 0.55rem;
-    border-radius: var(--radius-pill);
-    display: flex;
+    right: 0.7rem;
+    bottom: 0.7rem;
+    display: inline-flex;
     align-items: center;
     gap: 0.3rem;
-    backdrop-filter: blur(4px);
-}
-
-/* --- Badges --- */
-.badges {
-    position: absolute;
-    top: 0.65rem;
-    left: 0.65rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
-    z-index: 2;
+    padding: 0.4rem 0.65rem;
+    background: rgba(43, 35, 31, 0.72);
+    color: #fff;
+    backdrop-filter: blur(5px);
 }
 
 .badge {
-    font-size: 0.72rem;
-    font-weight: 700;
+    top: 0.7rem;
+    left: 0.7rem;
+    padding: 0.45rem 0.7rem;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-    padding: 0.25rem 0.65rem;
-    border-radius: var(--radius-pill);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-    width: fit-content;
-}
-
-.badge-cor-personalizavel {
-    background-color: var(--sage);
-    color: var(--sage-escuro);
 }
 
 .badge-sob-medida {
-    background-color: var(--azul);
-    color: var(--azul-darker);
+    background: var(--color-primary-soft);
+    color: var(--color-primary-strong);
 }
 
-/* --- Corpo do card --- */
-.card-body {
-    padding: 1.1rem 1.2rem 1.2rem;
+.card-content {
     display: flex;
+    flex: 1;
     flex-direction: column;
     gap: 0.35rem;
-    flex-grow: 1;
-    /* Garante fundo branco mesmo no dark mode */
-    background: var(--card-bg);
+    padding: 1.1rem 1.15rem 0.9rem;
 }
 
 .card-cat {
+    color: var(--color-primary);
     font-size: 0.72rem;
-    font-weight: 700;
+    font-weight: 800;
+    letter-spacing: 0.09em;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--azul-medio);
 }
 
 .card-name {
+    color: var(--text-strong);
     font-family: var(--font-display);
-    font-size: 1.25rem;
-    font-weight: 600;
-    line-height: 1.3;
-    /* Texto escuro fixo no card — não herda --texto do dark mode */
-    color: var(--card-texto);
+    font-size: 1.28rem;
+    font-weight: 700;
+    line-height: 1.2;
 }
 
 .card-desc {
-    font-size: var(--font-size-sm);
-    color: var(--card-texto-suave);
-    line-height: 1.55;
     display: -webkit-box;
-    -webkit-box-orient: vertical;
     overflow: hidden;
+    color: var(--text-muted);
+    font-size: 0.92rem;
+    line-height: 1.5;
+    -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
-    line-clamp: 2;
-    white-space: pre-line;
 }
 
-.card-info-resumida {
-    font-size: 0.85rem;
-    color: var(--card-texto-suave);
-    margin-bottom: 0.25rem;
-    font-style: italic;
+.card-summary {
+    margin-top: auto;
+    padding-top: 0.35rem;
+    color: var(--text-muted);
+    font-size: 0.88rem;
+    font-weight: 650;
 }
 
-/* --- Rodapé do card --- */
 .card-footer {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    margin-top: auto;
-    padding-top: 0.75rem;
-    border-top: 1px solid var(--card-footer-borda);
-    background: var(--card-bg);
+    gap: 0.75rem;
+    padding: 0.9rem 1.15rem 1.15rem;
+    border-top: 1px solid var(--card-border);
 }
 
 .card-price {
+    color: var(--color-primary-strong);
     font-family: var(--font-display);
-    font-size: 1.35rem;
-    font-weight: 600;
-    color: var(--azul-deep);
+    font-size: 1.28rem;
+    font-weight: 750;
+    line-height: 1.15;
 }
 
 .btn-order {
-    background: var(--azul-deep);
-    color: #ffffff; /* branco literal — não varia com tema */
-    font-size: var(--font-size-sm);
-    font-weight: 700;
-    padding: 0.55rem 1.1rem;
-    min-height: var(--touch-min);
+    display: inline-flex;
+    min-height: 48px;
+    align-items: center;
+    justify-content: center;
+    padding: 0.6rem 1rem;
     border-radius: var(--radius-pill);
+    background: var(--color-primary-strong);
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 800;
     transition:
-        background var(--transition),
-        transform var(--transition);
+        background var(--transition-fast),
+        transform var(--transition-fast);
 }
 
 .btn-order:hover {
-    background: var(--azul-darker);
-    transform: scale(1.04);
+    background: var(--color-primary-deep);
+    transform: scale(1.025);
 }
 
-/* --- Responsivo --- */
-@media (max-width: 640px) {
-    .card-footer {
-        flex-direction: column;
-        align-items: stretch;
+@media (max-width: 520px) {
+    .card-content {
+        gap: 0.45rem;
+        padding: 1.15rem 1.2rem 1rem;
     }
 
-    .btn-order {
-        text-align: center;
-        min-height: 56px;
-        font-size: 1rem;
+    .card-cat {
+        font-size: 0.78rem;
     }
 
     .card-name {
-        font-size: 1.15rem;
+        font-size: 1.42rem;
+        line-height: 1.25;
+    }
+
+    .card-desc,
+    .card-summary {
+        font-size: 0.96rem;
+        line-height: 1.55;
+    }
+
+    .card-footer {
+        align-items: stretch;
+        flex-direction: column;
     }
 
     .card-price {
         font-size: 1.45rem;
     }
 
-    .card-body {
-        padding: 0.9rem 1rem 1rem;
+    .btn-order {
+        min-height: 54px;
+        font-size: 1rem;
+    }
+}
+
+@media (hover: none) {
+    .card:hover,
+    .card:hover .card-img,
+    .btn-order:hover {
+        transform: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .card,
+    .card-img,
+    .btn-order {
+        transition: none;
+    }
+
+    .card:hover,
+    .card:hover .card-img {
+        transform: none;
     }
 }

@@ -1,45 +1,69 @@
 ---
+import { caminhoPublico } from "../catalogo/produto.ts";
+import { SITE_CONFIG } from "../config/site.ts";
 import "../styles/main.css";
-import { CONFIG } from "../data/produtos";
 
 interface Props {
     title?: string;
     description?: string;
 }
 
-const { title = CONFIG.nomeAtelie, description = CONFIG.descricaoSite } =
-    Astro.props;
-
-const canonicalURL = new URL(
-    Astro.url.pathname,
-    Astro.site ?? "https://example.com",
-);
+const {
+    title = SITE_CONFIG.titulo,
+    description = SITE_CONFIG.descricao,
+} = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const imagemSocial = new URL(caminhoPublico("imagens/logo.png"), Astro.site);
 ---
 
 <!doctype html>
 <html lang="pt-BR">
     <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="description" content={description} />
+        <meta name="theme-color" content="#f8f3ec" />
+
+        <meta property="og:locale" content="pt_BR" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content={SITE_CONFIG.nome} />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
-        <meta property="og:type" content="website" />
-        <link rel="canonical" href={canonicalURL} />
-        <link
-            rel="icon"
-            href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧶</text></svg>"
-        />
+        <meta property="og:url" content={canonical} />
+        <meta property="og:image" content={imagemSocial} />
+
+        <link rel="canonical" href={canonical} />
+        <link rel="icon" type="image/svg+xml" href={caminhoPublico("favicon.svg")} />
+        <link rel="icon" href={caminhoPublico("favicon.ico")} sizes="any" />
         <title>{title}</title>
+
+        <script is:inline>
+            (() => {
+                try {
+                    const salvo = localStorage.getItem("atelie-tema");
+                    const prefereEscuro = matchMedia("(prefers-color-scheme: dark)").matches;
+                    document.documentElement.dataset.theme =
+                        salvo === "dark" || salvo === "light"
+                            ? salvo
+                            : prefereEscuro
+                              ? "dark"
+                              : "light";
+                } catch {
+                    document.documentElement.dataset.theme = "light";
+                }
+            })();
+        </script>
     </head>
     <body>
+        <a class="skip-link" href="#conteudo-principal">Ir para o catálogo</a>
         <slot />
         <button
-            id="theme-toggle"
+            type="button"
             class="theme-toggle"
-            aria-label="Alternar tema claro/escuro"
+            data-theme-toggle
+            aria-label="Usar tema escuro"
         >
-            🌙
+            <span data-theme-icon aria-hidden="true">🌙</span>
         </button>
     </body>
 </html>

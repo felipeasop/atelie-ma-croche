@@ -9,7 +9,7 @@
     border-radius: var(--radius-xl);
     background:
         radial-gradient(circle at 90% 10%, rgba(255, 255, 255, 0.2), transparent 35%),
-        linear-gradient(135deg, var(--color-primary-deep), var(--color-primary));
+        linear-gradient(135deg, var(--color-primary-deep), var(--action-primary));
     color: #fff;
     box-shadow: var(--shadow-card-hover);
 }

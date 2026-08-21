@@ -55,6 +55,12 @@
     visibility: hidden;
 }
 
+[data-theme="dark"] .carousel-button {
+    border-color: var(--border);
+    background: rgba(39, 43, 48, 0.94);
+    color: var(--text-strong);
+}
+
 .carousel-prev {
     left: 0.75rem;
 }
@@ -97,6 +103,10 @@
 
 .carousel-dot.is-active::after {
     background: #fff;
+}
+
+[data-theme="dark"] .carousel-dots {
+    background: rgba(0, 0, 0, 0.46);
 }
 
 @media (max-width: 720px) {

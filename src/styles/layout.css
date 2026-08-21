@@ -9,6 +9,12 @@ body::before {
     pointer-events: none;
 }
 
+[data-theme="dark"] body::before {
+    background:
+        radial-gradient(circle at 10% 5%, rgba(61, 124, 147, 0.18), transparent 32rem),
+        radial-gradient(circle at 92% 90%, rgba(155, 94, 102, 0.12), transparent 28rem);
+}
+
 .skip-link {
     position: fixed;
     z-index: 1000;
@@ -127,11 +133,11 @@ body::before {
     flex-direction: column;
     gap: clamp(3rem, 7vw, 5rem);
     margin: 0 auto;
-    padding: clamp(3.75rem, 8vw, 5.5rem) 1rem 4rem;
+    padding: 3rem 1rem 4rem;
 }
 
 .category-section {
-    scroll-margin-top: 5.25rem;
+    scroll-margin-top: 5rem;
 }
 
 .category-header {

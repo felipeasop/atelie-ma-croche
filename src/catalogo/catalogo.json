@@ -2,7 +2,7 @@
   "cozinha": {
     "jogo-de-cozinha-basico": {
       "nome": "Jogo de Cozinha Básico",
-      "preco": 50,
+      "preco": 100,
       "componentes": [
         { "nome": "Passadeira" },
         { "nome": "Tapete", "quantidade": 2 }
@@ -39,7 +39,7 @@
     },
     "jogo-de-cozinha-oval-com-tulipas": {
       "nome": "Jogo de Cozinha Oval com Tulipas",
-      "preco": 110,
+      "preco": 190,
       "componentes": [
         { "nome": "Passadeira" },
         { "nome": "Tapete", "quantidade": 2 }

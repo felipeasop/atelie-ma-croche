@@ -68,7 +68,8 @@ export function criarLinkWhatsApp(
 
 export function caminhoPublico(caminho: string): string {
   const base = import.meta.env?.BASE_URL ?? "/";
-  return `${base}${caminho.replace(/^\//, "")}`;
+  const prefixo = base.endsWith("/") ? base : `${base}/`;
+  return `${prefixo}${caminho.replace(/^\/+/, "")}`;
 }
 
 export function caminhoImagem(caminho: string): string {

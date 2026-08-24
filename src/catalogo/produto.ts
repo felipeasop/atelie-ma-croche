@@ -24,7 +24,7 @@ export function menorPreco(produto: Produto): number {
 
 export function precoExibicao(produto: Produto): string {
   const prefixo = produtoTemVariantes(produto) || produto.sobMedida
-    ? "A partir de "
+    ? "A\u00A0partir\u00A0de "
     : "";
   return `${prefixo}${formatarPreco(menorPreco(produto))}`;
 }

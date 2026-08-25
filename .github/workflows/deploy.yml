@@ -34,8 +34,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build Astro
-        run: npm run build
+      - name: Validar e construir o site
+        run: npm run check
 
       - name: Setup Pages
         uses: actions/configure-pages@v4

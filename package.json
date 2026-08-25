@@ -10,12 +10,15 @@
     "build": "astro build",
     "preview": "astro preview",
     "test": "node --experimental-strip-types --test tests/*.test.ts",
-    "check": "npm run test && npm run build",
+    "check-images": "node scripts/validar-imagens.mjs",
+    "optimize-images": "node scripts/otimizar-imagens.mjs",
+    "check": "npm run test && npm run check-images && npm run build",
     "astro": "astro"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
     "astro": "^6.4.2",
+    "sharp": "^0.34.5",
     "zod": "^4.4.3"
   }
 }

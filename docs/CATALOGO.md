@@ -1,22 +1,49 @@
 # Manutenção do catálogo
 
+## Estrutura dos produtos
+
+O catálogo usa Astro Content Collections. Cada produto é um arquivo JSON
+independente em:
+
+```text
+src/content/produtos/<categoria>/<slug>.json
+```
+
+Exemplo: o produto `tapete-aninha` fica em
+`src/content/produtos/tapetes/tapete-aninha.json`.
+
+A categoria e o slug são definidos pelo caminho do arquivo; não inclua esses
+campos dentro do JSON. Use apenas categorias existentes:
+
+- `cozinha`
+- `mesa`
+- `banheiro`
+- `tapetes`
+- `decoracao`
+- `roupa`
+- `chaveiro`
+- `acessorio`
+
 ## Adicionar um produto
 
-1. Escolha uma categoria já existente.
-2. Crie a foto principal em
+1. Escolha uma categoria e crie o arquivo
+   `src/content/produtos/<categoria>/<slug>.json`.
+2. Adicione a foto principal em
    `public/imagens/<categoria>/<slug>.jpeg`.
 3. Para outras fotos, use `<slug>-2.jpeg`, `<slug>-3.jpeg` e assim por diante.
-4. Adicione o mesmo `slug` dentro da categoria em
-   `src/catalogo/catalogo.json`.
-5. Execute `npm run check`.
+4. Execute `npm run optimize-images` para comprimir as novas fotos.
+5. Execute `npm run check` antes de enviar a alteração.
 
-Use slugs minúsculos, sem acentos, separados por hífen. Não coloque logos ou
+Use slugs minúsculos, sem acentos, separados por hífen. O slug do arquivo JSON
+e o da imagem principal devem ser exatamente iguais. Não coloque logos ou
 ícones dentro das pastas de categorias.
 
 ## Produto com preço único
 
+Arquivo `src/content/produtos/decoracao/tapete-exemplo.json`:
+
 ```json
-"tapete-exemplo": {
+{
   "nome": "Tapete Exemplo",
   "descricao": "Descrição curta e objetiva.",
   "preco": 80,
@@ -30,8 +57,10 @@ omitida quando vale 1.
 
 ## Produto com variantes
 
+Arquivo `src/content/produtos/cozinha/jogo-exemplo.json`:
+
 ```json
-"jogo-exemplo": {
+{
   "nome": "Jogo Exemplo",
   "variantes": [
     {
@@ -54,8 +83,33 @@ omitida quando vale 1.
 }
 ```
 
+Um produto precisa ter exatamente um destes formatos:
+
+- `preco`, para preço único;
+- `variantes`, para duas ou mais opções de compra.
+
 Não informe `preco` ou `componentes` no nível do produto quando houver
-variantes.
+variantes: os componentes pertencem a cada opção.
+
+## Regras das imagens
+
+O comando `npm run check-images` é executado pelo `npm run check` e pelo CI do
+GitHub. Ele verifica automaticamente:
+
+- formato permitido (`jpg`, `jpeg`, `png`, `gif`, `webp` ou `avif`);
+- dimensões mínimas de `300 × 300 px`;
+- tamanho máximo de `2 MB` por arquivo;
+- correspondência entre o slug da imagem e o arquivo do produto;
+- existência de uma imagem para cada produto;
+- ausência de subpastas dentro das categorias.
+
+As imagens dos produtos devem ficar diretamente em
+`public/imagens/<categoria>/`, com a imagem principal usando exatamente o slug
+do produto. Fotos adicionais usam o sufixo `-2`, `-3` e assim por diante.
+
+Depois de adicionar fotos, execute `npm run optimize-images`. O comando usa
+compressão adequada para cada formato, preserva dimensões e nomes dos arquivos
+e só substitui a imagem quando consegue reduzir seu tamanho.
 
 ## Campos especiais
 

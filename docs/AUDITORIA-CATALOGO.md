@@ -17,13 +17,13 @@ Este arquivo concentra dados que dependem de confirmação humana. Os textos
 
 ## Conferências de produto
 
-- `jogo-da-velha-abelha-ou-joaninha-`: `PLACEHOLDER — confirmar quantas peças
+- `jogo-da-velha-abelha-ou-joaninha`: `PLACEHOLDER — confirmar quantas peças
   acompanham o tabuleiro e se a foto com marca d'água pode ser publicada.`
-- `jogo-de-banheiro-duas-pecas-basico`: confirmar se as peças são tapete e
+- `jogo-banheiro-duas-pecas-basico`: confirmar se as peças são tapete e
   tampa do vaso.
-- `jogo-de-banheiro-flor-de-laranjeira`: confirmar tapete, encaixe e tampa.
-- `jogo-de-banheiro-oval-com-tulipa`: confirmar as quatro peças cadastradas.
-- `jogo-de-cozinha-basico`: confirmar passadeira e dois tapetes; a foto mostra
+- `jogo-banheiro-flor-laranjeira`: confirmar tapete, encaixe e tampa.
+- `jogo-banheiro-oval-tulipa`: confirmar as quatro peças cadastradas.
+- `jogo-cozinha-basico`: confirmar passadeira e dois tapetes; a foto mostra
   três peças, enquanto o cadastro antigo dizia dois tapetes.
 - `conjunto-mar`: confirmar se o conjunto é formado por top e saia.
 

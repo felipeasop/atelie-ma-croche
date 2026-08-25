@@ -1,0 +1,9 @@
+{
+  "nome": "Jogo de Banheiro Flor de Laranjeira",
+  "preco": 160,
+  "componentes": [
+    { "nome": "Tapete" },
+    { "nome": "Encaixe do vaso" },
+    { "nome": "Tampa do vaso" }
+  ]
+}

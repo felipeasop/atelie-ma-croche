@@ -1,0 +1,5 @@
+{
+  "nome": "Jogo de Prato e Copo Modelo Diana",
+  "preco": 50,
+  "componentes": [{ "nome": "Sousplat" }, { "nome": "Porta-copo" }]
+}

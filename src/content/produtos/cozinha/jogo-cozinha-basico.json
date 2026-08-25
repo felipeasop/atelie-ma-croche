@@ -1,0 +1,8 @@
+{
+  "nome": "Jogo de Cozinha Básico",
+  "preco": 100,
+  "componentes": [
+    { "nome": "Passadeira" },
+    { "nome": "Tapete", "quantidade": 2 }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "nome": "Conjunto Mar",
+  "preco": 190,
+  "sobMedida": true,
+  "componentes": [
+    { "nome": "Top" },
+    { "nome": "Saia" }
+  ]
+}

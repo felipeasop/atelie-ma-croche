@@ -1,0 +1,8 @@
+{
+  "nome": "Jogo de Banheiro Duas Peças Básico",
+  "preco": 100,
+  "componentes": [
+    { "nome": "Tapete" },
+    { "nome": "Tampa do vaso" }
+  ]
+}

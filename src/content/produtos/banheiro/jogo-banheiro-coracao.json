@@ -1,0 +1,5 @@
+{
+  "nome": "Jogo de Banheiro Coração",
+  "preco": 290,
+  "componentes": [{ "nome": "Tapete de coração", "quantidade": 2 }, { "nome": "Tampa do vaso" }]
+}

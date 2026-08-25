@@ -1,0 +1,8 @@
+{
+  "nome": "Jogo de Cozinha Maria",
+  "preco": 550,
+  "componentes": [
+    { "nome": "Passadeira" },
+    { "nome": "Tapete", "quantidade": 2 }
+  ]
+}

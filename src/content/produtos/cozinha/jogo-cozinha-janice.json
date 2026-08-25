@@ -1,0 +1,21 @@
+{
+  "nome": "Jogo de Cozinha Janice",
+  "variantes": [
+    {
+      "descricao": "Passadeira + 2 tapetes",
+      "preco": 110,
+      "componentes": [
+        { "nome": "Passadeira" },
+        { "nome": "Tapete", "quantidade": 2 }
+      ]
+    },
+    {
+      "descricao": "Passadeira + 3 tapetes",
+      "preco": 160,
+      "componentes": [
+        { "nome": "Passadeira" },
+        { "nome": "Tapete", "quantidade": 3 }
+      ]
+    }
+  ]
+}

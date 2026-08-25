@@ -1,0 +1,8 @@
+{
+  "nome": "Jogo de Cozinha Quadrado com Corações",
+  "preco": 180,
+  "componentes": [
+    { "nome": "Passadeira" },
+    { "nome": "Tapete", "quantidade": 2 }
+  ]
+}

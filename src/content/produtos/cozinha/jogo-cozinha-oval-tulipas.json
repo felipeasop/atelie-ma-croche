@@ -1,0 +1,8 @@
+{
+  "nome": "Jogo de Cozinha Oval com Tulipas",
+  "preco": 190,
+  "componentes": [
+    { "nome": "Passadeira" },
+    { "nome": "Tapete", "quantidade": 2 }
+  ]
+}

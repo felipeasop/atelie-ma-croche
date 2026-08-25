@@ -1,13 +1,11 @@
-import catalogoRaw from "./catalogo.json";
-import { validarCatalogo, type ProdutoMeta } from "./schema.ts";
+import { getCollection } from "astro:content";
+import type { ProdutoMeta } from "./schema.ts";
 import {
   CATEGORIAS,
   CATEGORIAS_ORDEM,
   type Categoria,
   type Produto,
 } from "./tipos.ts";
-
-const catalogo = validarCatalogo(catalogoRaw);
 
 const arquivos = import.meta.glob<string>(
   "/public/imagens/*/*.{avif,gif,jpeg,jpg,png,webp}",
@@ -26,7 +24,6 @@ function categoriaValida(valor: string): valor is Categoria {
 
 function decomporArquivo(caminho: string): {
   categoria: Categoria;
-  arquivo: string;
   slug: string;
 } {
   const partes = caminho.split("/");
@@ -38,7 +35,7 @@ function decomporArquivo(caminho: string): {
   }
 
   const slug = arquivo.replace(/\.[^.]+$/, "").replace(/-\d+$/, "");
-  return { categoria, arquivo, slug };
+  return { categoria, slug };
 }
 
 function indiceDaImagem(caminho: string): number {
@@ -51,13 +48,21 @@ function compararImagens(a: string, b: string): number {
   return indiceDaImagem(a) - indiceDaImagem(b) || a.localeCompare(b, "pt-BR");
 }
 
-function listarMetadados(): Map<string, ProdutoMeta> {
+async function listarMetadados(): Promise<Map<string, ProdutoMeta>> {
   const itens = new Map<string, ProdutoMeta>();
+  const entradas = await getCollection("produtos");
 
-  for (const categoria of CATEGORIAS) {
-    for (const [slug, metadado] of Object.entries(catalogo[categoria])) {
-      itens.set(`${categoria}/${slug}`, metadado);
+  for (const entrada of entradas) {
+    const [categoria, slug, ...restante] = entrada.id.split("/");
+    if (!categoriaValida(categoria) || !slug || restante.length > 0) {
+      throw new Error(
+        `Produto fora do formato categoria/slug: src/content/produtos/${entrada.id}.json`,
+      );
     }
+
+    const id = `${categoria}/${slug}`;
+    if (itens.has(id)) throw new Error(`Produto duplicado: ${id}`);
+    itens.set(id, entrada.data as ProdutoMeta);
   }
 
   return itens;
@@ -89,42 +94,49 @@ function validarCorrespondencia(
   if (semImagem.length === 0 && semMetadado.length === 0) return;
 
   const erros = [
-    ...semImagem.map((id) => `  • metadado sem imagem: ${id}`),
-    ...semMetadado.map((id) => `  • imagem sem metadado: ${id}`),
+    ...semImagem.map((id) => `  • produto sem imagem: ${id}`),
+    ...semMetadado.map((id) => `  • imagem sem produto: ${id}`),
   ];
 
   throw new Error(`\nCatálogo e imagens não correspondem:\n${erros.join("\n")}\n`);
 }
 
-const metadados = listarMetadados();
-const imagens = agruparImagens();
-validarCorrespondencia(metadados, imagens);
-
 const ordemCategoria = new Map(
   CATEGORIAS_ORDEM.map((categoria, indice) => [categoria, indice]),
 );
 
-export const PRODUTOS: Produto[] = [...imagens.entries()]
-  .map(([id, grupo]) => {
-    const meta = metadados.get(id)!;
-    const base = {
-      id,
-      slug: grupo.slug,
-      nome: meta.nome,
-      categoria: grupo.categoria,
-      imagens: grupo.imagens.sort(compararImagens),
-      descricao: meta.descricao,
-      medidas: meta.medidas,
-      sobMedida: meta.sobMedida ?? false,
-      corPersonalizavel: meta.corPersonalizavel ?? true,
-    };
+export async function carregarProdutos(): Promise<Produto[]> {
+  const metadados = await listarMetadados();
+  const imagens = agruparImagens();
+  validarCorrespondencia(metadados, imagens);
 
-    return meta.variantes
-      ? { ...base, variantes: meta.variantes }
-      : { ...base, preco: meta.preco!, componentes: meta.componentes };
-  })
-  .sort(
-    (a, b) =>
-      ordemCategoria.get(a.categoria)! - ordemCategoria.get(b.categoria)! ||
-      a.nome.localeCompare(b.nome, "pt-BR"),
-  );
+  return [...imagens.entries()]
+    .map(([id, grupo]) => {
+      const meta = metadados.get(id)!;
+      const base = {
+        id,
+        slug: grupo.slug,
+        nome: meta.nome,
+        categoria: grupo.categoria,
+        imagens: grupo.imagens.sort(compararImagens),
+        descricao: meta.descricao,
+        medidas: meta.medidas,
+        sobMedida: meta.sobMedida ?? false,
+        corPersonalizavel: meta.corPersonalizavel ?? true,
+      };
+
+      return meta.variantes
+        ? { ...base, variantes: meta.variantes }
+        : {
+          ...base,
+          preco: meta.preco!,
+          precoMaximo: meta.precoMaximo,
+          componentes: meta.componentes,
+        };
+    })
+    .sort(
+      (a, b) =>
+        ordemCategoria.get(a.categoria)! - ordemCategoria.get(b.categoria)! ||
+        a.nome.localeCompare(b.nome, "pt-BR"),
+    );
+}

@@ -10,6 +10,10 @@ export function formatarPreco(preco: number): string {
   return FORMATO_MOEDA.format(preco);
 }
 
+export function formatarFaixaPreco(inicial: number, maximo: number): string {
+  return `${formatarPreco(inicial)}–${formatarPreco(maximo)}`;
+}
+
 export function totalPecas(componentes: readonly Componente[] = []): number {
   return componentes.reduce(
     (total, componente) => total + (componente.quantidade ?? 1),
@@ -23,6 +27,9 @@ export function menorPreco(produto: Produto): number {
 }
 
 export function precoExibicao(produto: Produto): string {
+  if (!produtoTemVariantes(produto) && produto.precoMaximo) {
+    return formatarFaixaPreco(produto.preco, produto.precoMaximo);
+  }
   const prefixo = produtoTemVariantes(produto) || produto.sobMedida
     ? "A\u00A0partir\u00A0de "
     : "";
@@ -58,10 +65,14 @@ export function criarLinkWhatsApp(
   whatsapp: string,
   variante?: Variante,
 ): string {
-  const preco = variante?.preco ?? menorPreco(produto);
+  const preco = variante
+    ? formatarPreco(variante.preco)
+    : !produtoTemVariantes(produto) && produto.precoMaximo
+      ? formatarFaixaPreco(produto.preco, produto.precoMaximo)
+      : formatarPreco(menorPreco(produto));
   const opcao = variante ? ` — ${variante.descricao}` : "";
   const observacao = produto.sobMedida ? " (valor base)" : "";
-  const mensagem = `Olá! Gostaria de encomendar *${produto.nome}*${opcao} — ${formatarPreco(preco)}${observacao}.`;
+  const mensagem = `Olá! Gostaria de encomendar *${produto.nome}*${opcao} — ${preco}${observacao}.`;
 
   return `https://wa.me/${whatsapp}?text=${encodeURIComponent(mensagem)}`;
 }

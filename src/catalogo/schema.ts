@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { CATEGORIAS } from "./tipos.ts";
 
 export const ComponenteSchema = z
   .object({
@@ -21,6 +20,7 @@ export const ProdutoMetaSchema = z
     nome: z.string().trim().min(1, "nome não pode ficar vazio"),
     descricao: z.string().trim().min(1).optional(),
     preco: z.number().positive("preço deve ser maior que zero").optional(),
+    precoMaximo: z.number().positive("preço máximo deve ser maior que zero").optional(),
     componentes: z.array(ComponenteSchema).min(1).optional(),
     variantes: z.array(VarianteSchema).min(2).optional(),
     medidas: z.string().trim().min(1).optional(),
@@ -47,27 +47,22 @@ export const ProdutoMetaSchema = z
           "componentes de um produto com variantes pertencem a cada variante",
       });
     }
+
+    if (produto.precoMaximo !== undefined) {
+      if (!temPreco || temVariantes) {
+        contexto.addIssue({
+          code: "custom",
+          path: ["precoMaximo"],
+          message: "preço máximo só pode ser usado em produto com preço único",
+        });
+      } else if (produto.precoMaximo <= produto.preco!) {
+        contexto.addIssue({
+          code: "custom",
+          path: ["precoMaximo"],
+          message: "preço máximo deve ser maior que o preço inicial",
+        });
+      }
+    }
   });
-
-const CategoriaSchema = z.enum(CATEGORIAS);
-
-export const CatalogoSchema = z.record(
-  CategoriaSchema,
-  z.record(z.string().min(1), ProdutoMetaSchema),
-);
 
 export type ProdutoMeta = z.infer<typeof ProdutoMetaSchema>;
-export type CatalogoMeta = z.infer<typeof CatalogoSchema>;
-
-export function validarCatalogo(valor: unknown): CatalogoMeta {
-  const resultado = CatalogoSchema.safeParse(valor);
-  if (resultado.success) return resultado.data;
-
-  const detalhes = resultado.error.issues.map((erro) => {
-    const [categoria = "raiz", slug = "-", ...campo] = erro.path;
-    const local = campo.length > 0 ? campo.join(".") : "produto";
-    return `  • [${categoria}/${slug}] ${local}: ${erro.message}`;
-  });
-
-  throw new Error(`\nCatálogo inválido:\n${detalhes.join("\n")}\n`);
-}

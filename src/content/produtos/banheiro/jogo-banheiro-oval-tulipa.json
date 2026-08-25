@@ -1,0 +1,10 @@
+{
+  "nome": "Jogo de Banheiro Oval com Tulipa",
+  "preco": 195,
+  "componentes": [
+    { "nome": "Tapete" },
+    { "nome": "Encaixe do vaso" },
+    { "nome": "Tampa do vaso" },
+    { "nome": "Suporte para papel higiênico" }
+  ]
+}

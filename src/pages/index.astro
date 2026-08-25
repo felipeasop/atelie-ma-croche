@@ -3,7 +3,7 @@ import BannerPersonalizado from "../components/Banner/BannerPersonalizado.astro"
 import Modal from "../components/Modal/Modal.astro";
 import ProductCard from "../components/ProductCard/ProductCard.astro";
 import Layout from "../layouts/Layout.astro";
-import { PRODUTOS } from "../catalogo/carregar.ts";
+import { carregarProdutos } from "../catalogo/carregar.ts";
 import {
     CATEGORIAS_INFO,
     CATEGORIAS_ORDEM,
@@ -11,14 +11,15 @@ import {
 import { caminhoPublico } from "../catalogo/produto.ts";
 import { SITE_CONFIG } from "../config/site.ts";
 
+const produtos = await carregarProdutos();
 const categorias = CATEGORIAS_ORDEM.map((id) => ({
     id,
     ...CATEGORIAS_INFO[id],
-    produtos: PRODUTOS.filter((produto) => produto.categoria === id),
+    produtos: produtos.filter((produto) => produto.categoria === id),
 })).filter((categoria) => categoria.produtos.length > 0);
 
 const dadosCliente = JSON.stringify({
-    produtos: PRODUTOS,
+    produtos,
     whatsapp: SITE_CONFIG.whatsapp,
 }).replaceAll("<", "\\u003c");
 ---

@@ -1,0 +1,10 @@
+{
+  "nome": "Jogo de Banheiro Modelo Jerusa",
+  "preco": 350,
+  "componentes": [
+    { "nome": "Tampa do vaso" },
+    { "nome": "Encaixe do vaso" },
+    { "nome": "Suporte para papel higiênico" },
+    { "nome": "Tapete" }
+  ]
+}

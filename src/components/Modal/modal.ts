@@ -8,7 +8,7 @@ import {
 import {
   criarLinkWhatsApp,
   formatarPreco,
-  menorPreco,
+  precoExibicao,
   totalPecas,
 } from "../../catalogo/produto.ts";
 import { criarCarrossel } from "./carousel.ts";
@@ -50,11 +50,7 @@ function atualizarCompra(
 ): void {
   const preco = selecionar<HTMLElement>(modal, "[data-modal-price]");
   const link = selecionar<HTMLAnchorElement>(modal, "[data-modal-whatsapp]");
-  const valor = variante?.preco ?? menorPreco(produto);
-
-  preco.textContent = produto.sobMedida && !variante
-    ? `A partir de ${formatarPreco(valor)}`
-    : formatarPreco(valor);
+  preco.textContent = variante ? formatarPreco(variante.preco) : precoExibicao(produto);
   link.href = criarLinkWhatsApp(produto, whatsapp, variante);
   preencherComponentes(
     modal,
